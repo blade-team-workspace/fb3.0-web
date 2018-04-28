@@ -1,8 +1,8 @@
 <template>
   <div>
-    <Froms v-for="form in datas v-model:datas" >
+    <bpmForm v-for="formData in formsData" :id="formData.url">
 
-    </Froms>
+    </bpmForm>
   </div>
 
 
@@ -11,30 +11,30 @@
 <script>
   import axios from 'axios'
 
-  import Froms from  '../baseComponents/Form.vue'
+  import bpmForm from  '../baseComponents/Form.vue'
   export default {
 
      created() {
-       console.log('111')
-      this.getData1();
+       this.getFormData();
      },
     components:{
-      Froms,
-
+      bpmForm
     },
     data(){
       return {
-        datas:''
+        formsData:''
 
       }
     },
     methods: {
-       getData1 () {
+      /**
+       * 请求数据
+       */
+       getFormData () {
          axios.get('/class')
               .then((res) => {
                 console.log(res.data.dataList);
-                this.datas = res.data.dataList;
-
+                this.formsData = res.data.dataList;
               })
        }
     }
