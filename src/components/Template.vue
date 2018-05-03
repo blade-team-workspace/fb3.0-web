@@ -1,6 +1,6 @@
 <template>
   <div>
-    <bpmForm v-for="formData in formsData" :id="formData.url">
+    <bpmForm v-for="formData in formsData"  :formData="formData">
 
     </bpmForm>
   </div>
@@ -11,7 +11,7 @@
 <script>
   import axios from 'axios'
 
-  import bpmForm from  '../baseComponents/Form.vue'
+  import bpmForm from  '../baseComponents/Form'
   export default {
 
      created() {

@@ -9,10 +9,10 @@ import mock from './mock/index'
 Vue.config.productionTip = false
 Vue.prototype.$ajax = axios
 mock.init();
-// import iView from 'iview' // 导入组件库
-// import 'iview/dist/styles/iview.css' // 导入样式
+import iView from 'iview' // 导入组件库
+import 'iview/dist/styles/iview.css' // 导入样式
 // /* eslint-disable no-new */
-// Vue.use(iView)
+Vue.use(iView)
 // Vue.use(Template)
 // Vue.use(mock);
 new Vue({
