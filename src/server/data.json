@@ -1,0 +1,100 @@
+{
+  "label": "测试表单",
+  "url": "class",
+  "type": "form",
+  "items": [{
+    "isShow":true,
+    "label": "单行文本input",
+    "type": "form-group",
+    "groupId": "group0",
+    "items": [{
+      "name": "text1",
+      "type": "text",
+      "isShow":true
+    }]
+  },{
+    "isShow":true,
+    "label": "多行文本textArea",
+    "type": "form-group",
+    "groupId": "group0",
+    "items": [{
+      "name": "textArea1",
+      "type": "textArea",
+      "isShow":true
+    }]
+  },{
+    "isShow":true,
+    "label": "下拉单选-1",
+    "type": "form-group",
+    "groupId": "group0",
+    "items": [
+      {
+        "name": "select1",
+        "type": "select",
+        "options": [{
+          "label": "选项1",
+          "value": 1
+        }, {
+          "label": "选项2",
+          "value": 2
+        }, {
+          "label": "选项3",
+          "value": 3
+        }],
+        "isShow":true
+      }
+    ]
+  },{
+    "isShow":true,
+    "label": "多个组件container",
+    "type": "multimedia",
+    "groupId": "group0",
+    "items": [
+      {
+        "name": "select3",
+        "type": "select",
+        "options": [{
+          "label": "选项1",
+          "value": 1
+        }, {
+          "label": "选项2",
+          "value": 2
+        }, {
+          "label": "选项3",
+          "value": 3
+        }],
+        "isShow":true
+      },{
+        "name": "textArea_multi",
+        "type": "textArea",
+        "isShow":true
+      }
+    ]
+  }],
+   "rules":{
+     "textArea1": [
+       { "required": true, "message": "The name cannot be empty", "trigger": "blur" }
+     ]
+   },
+   "event":[{
+     "eventType": "valueChangeShowHide",
+     "trigger": "select1",
+     "valueResps": {
+       "1": "",
+       "2": "",
+       "3": ["textArea1","text1"]
+     }
+   }],
+   "values" : {
+      "select1":3,
+      "textArea1":"",
+      "text1":"",
+      "select3":"",
+      "textArea_multi":""
+
+   },
+   "isRead" :false
+
+}
+
+

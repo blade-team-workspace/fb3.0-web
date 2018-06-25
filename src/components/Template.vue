@@ -1,6 +1,6 @@
 <template>
   <div>
-    <bpmForm v-for="formData in formsData"  :formData="formData">
+    <bpmForm   :formData="formData" >
 
     </bpmForm>
   </div>
@@ -10,19 +10,28 @@
 
 <script>
   import axios from 'axios'
-
+  import store from '../store/store'
+  import data from '../server/data'
   import bpmForm from  '../baseComponents/Form'
+  import '../jquery-3.2.1.js'
+//  import app from '../main'
   export default {
 
      created() {
        this.getFormData();
+       this.init();
+
+       this.formData = data;
+
      },
     components:{
       bpmForm
     },
     data(){
       return {
-        formsData:''
+        formData:'',
+        rules :'',
+        values:''
 
       }
     },
@@ -31,12 +40,36 @@
        * 请求数据
        */
        getFormData () {
-         axios.get('/class')
-              .then((res) => {
-                console.log(res.data.dataList);
-                this.formsData = res.data.dataList;
-              })
-       }
+//         axios.get('/class'
+//              .then((res) => {
+//                console.log(res.data.dataList);
+//                this.formsData = res.data.dataList;
+//              }))
+       },
+      init() {
+        // 扩展array类型原生方法，添加obj如果是array，就让其元素合并，否则直接加入
+        Array.prototype.add = function(obj) {
+          var arrList = this;
+          if ($.isArray(obj)) {
+            $.each(obj, function(_idx) {
+              arrList.push(obj[_idx]);
+            });
+          } else {
+            arrList.push(obj);
+          }
+        }
+
+        // 扩展array类型原生方法，添加如果array中含有obj，那么返回true
+        Array.prototype.contains = function (obj) {
+          var i = this.length;
+          while (i--) {
+            if (this[i] === obj) {
+              return true;
+            }
+          }
+          return false;
+        }
+      }
     }
 
   }

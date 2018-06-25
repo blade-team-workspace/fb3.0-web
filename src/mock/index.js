@@ -1,11 +1,10 @@
-import dataList from './../server/data.js'
+import dataList from '../server/data.json'
 import MockAdapter from 'axios-mock-adapter'
 import axios from 'axios'
 
 
 export default {
   init() {
-    console.log(dataList)
     let mock = new MockAdapter(axios);
     mock.onGet('/class').reply(config => {
 
