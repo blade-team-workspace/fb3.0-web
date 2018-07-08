@@ -4,24 +4,26 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import axios from 'axios'
-import mock from './mock/index'
 import Vuex from 'vuex'
 // import  Template from './components/Template'
 Vue.config.productionTip = false
 Vue.prototype.$ajax = axios
-mock.init();
 import iView from 'iview' // 导入组件库
 import 'iview/dist/styles/iview.css' // 导入样式
+import store from './store'
+import VueBus from 'vue-bus';
 // /* eslint-disable no-new */
 Vue.use(iView)
 Vue.use(Vuex)
+Vue.use(VueBus);
 // Vue.use(Template)
 // Vue.use(mock);
-var a =  new Vue({
+  new Vue({
   el: '#app',
+  store,
   router,
   components: { App },
   template: '<App/>'
 });
 
-export default a
+

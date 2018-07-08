@@ -1,6 +1,6 @@
 <template>
   <div>
-    <bpmForm   :formData="formData" >
+    <bpmForm  >
 
     </bpmForm>
   </div>
@@ -10,18 +10,18 @@
 
 <script>
   import axios from 'axios'
-  import store from '../store/store'
-  import data from '../server/data'
-  import bpmForm from  '../baseComponents/Form'
-  import '../jquery-3.2.1.js'
+//  import store from '../store/store'
+//  import data from '../server/data'
+  import bpmForm from './contianer/form'
+  import $ from 'jquery'
 //  import app from '../main'
   export default {
 
      created() {
-       this.getFormData();
+//       this.getFormData();
        this.init();
 
-       this.formData = data;
+//       this.formData = data;
 
      },
     components:{
@@ -29,9 +29,9 @@
     },
     data(){
       return {
-        formData:'',
-        rules :'',
-        values:''
+//        formData:'',
+//        rules :'',
+//        values:''
 
       }
     },
