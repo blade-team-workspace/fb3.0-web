@@ -1,5 +1,5 @@
 <template>
-<i-form  ref="formValidate" :id="url" :model="formValues" :rules="rules" >
+<iForm  ref="formValidate" :id="url" :model="formValues" :rules="rules" :groupRules="groupRules" >
   <FormItem>
     <Button type="primary" @click="handleSubmit('formValidate')">Submit</Button></FormItem>
   <Button type="primary" @click="tes">test</Button></FormItem>
@@ -24,11 +24,13 @@
     >
     </stream>
   </div>
-</i-form>
+</iForm>
 
 </template>
 
 <script>
+  import Schema from 'async-validator';
+  import iForm from './local-form.vue'
   import fromGroup from './formGroup.vue'
   import multiMedia from './multiMedia.vue'
   import stream from './stream.vue'
@@ -39,18 +41,20 @@
 
       return {
         formValues:{
-        }
+        },
+        fields:[]
       }
     },
     components:{
-      fromGroup,multiMedia,stream
+      fromGroup,multiMedia,stream,iForm
     },
     computed :{ ...mapState('form',{
       url:state=>state.form.url,
       containers:state=>state.form.items,
       isRead : state=>state.form.isRead,
       events : state=> state.form.events,
-      rules : state=>state.form.rules
+      rules : state=>state.form.rules,
+      groupRules : state=>state.form.groupRules
     })
 //      formValues : function () {
 //
@@ -61,27 +65,189 @@
     },
     created() {
 
+
+       this.total(valid=>{
+         console.log('totol')
+         console.log(valid)
+       })
 //      this.formValues = this.$store.state.values;
 //      console.log(this.formValues)
       this.eventDispatch(this.events);
       this.$bus.on('addValues', this.addValues);
 
+      this.$bus.on('addField',this.addField)
       this.$bus.on('triggerEvents', this.eventDispatchForTrigger);
     },
     methods : {
       tes() {
-        console.log(this.formValues)
+      /*  const schema = new Schema({
+          name: {
+            type: 'string',
+            required: true,
+            min: 5,
+            max: 10,
+          },
+          address: {
+            type: 'object',
+            required: true,
+            fields: {
+              province: {
+                type: 'string',
+                required: true,
+                min: 4,
+              },
+              city: {
+                type: 'string',
+                message: 'custom message',
+                min: 5,
+              },
+              async: {
+                validator(rule, value, callback) {
+                  setTimeout(() => {
+                    callback(rule.message);
+                  }, 100);
+                },
+                message: 'address async fails',
+              },
+            },
+          },
+          async: {
+            validator(rule, value, callback) {
+              setTimeout(() => {
+                callback([new Error(rule.message)]);
+              }, 100);
+            },
+            message: 'async fails',
+          },
+        });
+
+        schema.validate({
+          name: 2,
+          address: {
+            city: 2,
+          },
+          async: '2',
+        }, (errors, fields) => {
+          console.log('errors');
+          console.log(errors);
+          console.log('fields');
+          console.log(fields);
+        });*/
+      var p = new Promise((resolve,reject)=>{
+        const a = new Schema({name:{required: true}})
+        a.validate({name:''},(errors, fields) => {
+          console.log('pppp');
+
+          if(errors){
+
+            reject('erro name')
+          }else {
+            resolve('p is Ok')
+          }
+        })
+      });
+        var b = new Promise((resolve,reject)=>{
+          const a = new Schema({came:{required: true}})
+          a.validate({came:'asd'},(errors, fields) => {
+            if(errors){
+
+              reject('erro came')
+            }else {
+              resolve('a is Ok')
+            }
+          })
+        });
+        p.then(function (data){
+          console.log('in then');
+          console.log(data);
+          return b
+        }).then(function (data){
+          console.log('in then');
+          console.log(data);
+        }).catch(function (error){
+
+          console.log('error');
+          console.log(error);
+        })
+//      const a = new Schema({name:{required: true}})
+//        a.validate({name:'a'},(errors, fields) => {
+//          console.log('errors');
+//          console.log(errors);
+//          console.log('fields');
+//          console.log(fields);
+//        })
+      },
+      total (callback) {
+        return new Promise(resolve => {
+        var values = [{key: 'name', value: '123'}, {key: 'age', value: 'asd'}]
+
+        let count = 0;
+        let valid = true;
+
+        values.forEach(field => {
+        /*  field.validate('', errors => {
+            if (errors) {
+              valid = false;
+            }
+            if (++count === values.length) {
+              // all finish
+              resolve(valid);
+              if (typeof callback === 'function') {
+                callback(valid);
+              }
+            }
+          })*/
+          this.aaa(field,function (errors){
+            if (errors) {
+              valid = false;
+            }
+            if (++count === values.length) {
+              // all finish
+              resolve(valid);
+              if (typeof callback === 'function') {
+                callback(valid);
+              }
+            }
+          })
+        })
+      })
+      },
+      aaa(data,callback = function(){}) {
+
+        var rule = {};
+        rule[data.key] = {required: true}
+        const a = new Schema(rule);
+        var value = {};
+        value[data.key] = data.value;
+        a.validate(value, (errors, fields) => {
+          if (errors) {
+            callback(data.key + ' :something worong')
+          } else {
+            callback()
+          }
+        })
+
       },
       addValues(ob) {
         this.formValues[ob.name] = ob.value;
+      },
+      addField(obj) {
+//        console.log('addField')
+        console.log(obj)
+        this.fields.push(obj)
       },
       handleSubmit (name) {
         this.$refs[name].validate((valid) => {
           if (valid) {
             this.$Message.success('Success!');
+
           } else {
             this.$Message.error('Fail!');
           }
+        })
+        console.log(this.$refs[name].groupValidate)
+        this.$refs[name].groupValidate((valid) =>{
+
         })
       },
       eventDispatch (events) {
