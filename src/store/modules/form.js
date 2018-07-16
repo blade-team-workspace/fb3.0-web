@@ -90,13 +90,12 @@ const state = {
       }
     ],
     rules : {
-      text1 :[{ required: true, message: 'The name cannot be empty', trigger: 'blur'},
-      ],
+
       select1222:[{ required: true, message: 'The select cannot be empty', trigger: 'change',type:'number'}]
     },
     groupRules: {
       requireAtLeastOne: [
-        ["multimedia_text", "multimedia_select"]
+        { item:["multimedia_text", "text1"]}
       ]
     },
       events : [
