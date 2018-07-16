@@ -91,11 +91,11 @@ const state = {
     ],
     rules : {
 
-      select1222:[{ required: true, message: 'The select cannot be empty', trigger: 'change',type:'number'}]
+      // multimedia_text:[{ required: true, message: 'The multi cannot be empty', trigger: 'blur'}]
     },
     groupRules: {
       requireAtLeastOne: [
-        { item:["multimedia_text", "text1"]}
+         ["multimedia_text", "text1"]
       ]
     },
       events : [

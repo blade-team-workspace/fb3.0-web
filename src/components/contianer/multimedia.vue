@@ -39,12 +39,14 @@
         <bpmText
           ref="component"
           v-if="item.type ==='text' "
+          v-model="values[item.name]"
           :item="item">
         </bpmText>
 
         <bpmTextArea
           ref="component"
           v-if="item.type ==='textArea' "
+          v-model="values[item.name]"
           :item="item">
         </bpmTextArea>
 

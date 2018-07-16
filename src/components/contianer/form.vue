@@ -237,16 +237,16 @@
         this.fields.push(obj)
       },
       handleSubmit (name) {
-        this.$refs[name].validate((valid) => {
-          if (valid) {
-            this.$Message.success('Success!');
-
-          } else {
-            this.$Message.error('Fail!');
-          }
-        })
-        console.log(this.$refs[name].groupValidate)
-        this.$refs[name].groupValidate((valid) =>{
+//        this.$refs[name].validate((valid) => {
+//          if (valid) {
+//            this.$Message.success('Success!');
+//
+//          } else {
+//            this.$Message.error('Fail!');
+//          }
+//        })
+//        console.log(this.$refs[name].groupValidate)
+        this.$refs[name].validateRequired((valid) =>{
 
         })
       },

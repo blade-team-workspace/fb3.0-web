@@ -16,6 +16,9 @@
       rules: {
         type: Object
       },
+      groupRules: {
+        type: Object
+      },
       labelWidth: {
         type: Number
       },
@@ -84,6 +87,47 @@
             });
           });
         });
+      },
+      validateRequired (callback) {
+        return new Promise(resolve => {
+        var groupRulesRequiredList = this.groupRules.requireAtLeastOne;
+        var fieldList = [];
+        groupRulesRequiredList.forEach(rule => { //['a','b']
+          var ruleList = [];
+          rule.forEach(item => {
+            const field = this.fields.filter(field => field.prop === item)[0];
+            ruleList.push(field)
+          })
+          fieldList.push(ruleList)
+        })
+        console.log('fieldList')
+        console.log(fieldList)
+        var valid = false;
+        fieldList.forEach(rulesList => {
+          console.log(rulesList)
+          rulesList.forEach(field => {
+            var  count = 0;
+            field.validateRequire("", errors => {
+              if (errors) {
+                valid = false;
+                rulesList.forEach(a =>{
+                  a.validateState = 'error';
+                  a.validateMessage = '几项选一';
+                  a.validateDisabled = false;
+                })
+                return;
+              }
+              if (++count === rulesList.length) {
+                // all finish
+                resolve(valid);
+                if (typeof callback === 'function') {
+                  callback(valid);
+                }
+              }
+            })
+          })
+        })
+      })
       },
       validateField(prop, cb) {
         const field = this.fields.filter(field => field.prop === prop)[0];

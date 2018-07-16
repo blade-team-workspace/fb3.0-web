@@ -1,26 +1,7 @@
 <!--单组件 左右排列 左label 右组件-->
 
 <template>
-  <!--<div class="form-group" v-if="showOrhide ">-->
-  <!--<Row>-->
-  <!--<Col span="8"> <bpmLabel :value="containerData.label"></bpmLabel></Col>-->
-  <!--<Col span="16">-->
-  <!--<template v-if="!isRead">-->
 
-
-  <!--<bpmtext   @initCount="initCount" v-if="containerData.items[0].type=='text' && containerData.items[0].isShow" :itemData="containerData.items[0]" v-model="modelValue[containerData.items[0].name]"  > </bpmtext>-->
-
-  <!--<bpmtextArea  @initCount="initCount" v-if="containerData.items[0].type=='textArea'&& containerData.items[0].isShow" :itemData="containerData.items[0]"   v-model="modelValue[containerData.items[0].name]" ></bpmtextArea>-->
-  <!--<bpmSelect   @eventTrigger="eventTrigger" @initCount="initCount" v-if="containerData.items[0].type=='select'&& containerData.items[0].isShow" :itemData="containerData.items[0]" :bpmValue="bpmValue"  v-model="modelValue[containerData.items[0].name]"  ></bpmSelect>-->
-  <!--</template>-->
-  <!--<template v-else>-->
-
-  <!--<bpmRead v-if="readValue!==''" :value="readValue"></bpmRead>-->
-  <!--</template>-->
-  <!--</Col>-->
-
-  <!--</Row>-->
-  <!--</div>-->
 
 
   <div class="from-group" v-if="showOrhide">

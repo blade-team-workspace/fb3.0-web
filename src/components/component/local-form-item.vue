@@ -181,6 +181,25 @@
         });
         this.validateDisabled = false;
       },
+      validateRequire(message,callback){
+        // 现只支持requireAtLeastOne
+        this.validateState = 'validating';
+        let descriptor = {};
+        descriptor[this.prop] = {required:true} ;//规则
+
+        const validator = new AsyncValidator(descriptor);
+        let model = {};
+
+        model[this.prop] = this.fieldValue;
+        validator.validate(model, { firstFields: true }, errors => {
+          this.validateState = !errors ? 'success' : 'error';
+          this.validateMessage = errors ? message : '';
+
+          callback(this.validateMessage);
+        });
+        this.validateDisabled = false;
+
+      },
       resetField () {
         this.validateState = '';
         this.validateMessage = '';
