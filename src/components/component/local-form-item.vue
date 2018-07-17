@@ -151,12 +151,59 @@
 
         return [].concat(selfRules || formRules || []);
       },
+      validateRequireAtLeastOne(callback = function(){}){
+
+        console.log('validateRequireAtLeastOne')
+        var rule = this.getFilterGroupRules();
+        var fields =[];
+        rule.forEach(item => {
+          const field = this.form.fields.filter(field => field.prop === item)[0];
+          fields.push(field)
+        })
+        var hasValue = false;
+        var message = [];
+        fields.forEach(field => {
+          message.push(field.prop);
+          if(field.fieldValue === '' || field.fieldValue ===[]){
+              //  没值
+          } else {
+              //  有值
+              hasValue = true;
+
+          }
+        })
+        if(!hasValue) {
+          fields.forEach(field => {
+            field.validateState = 'error';
+            field.validateMessage = message.join(',') + '必填一项';
+            field.validateDisabled = false;
+          });
+
+        } else {
+            fields.forEach(field => {
+              field.validateState = '';
+              field.validateMessage = '';
+            })
+        }
+        callback(hasValue);
+      },
+      getFilterGroupRules() {
+        var rule;
+        var requireAtLeastOneList = this.form.groupRules.requireAtLeastOne;
+        requireAtLeastOneList.forEach(list =>{
+          if(list.indexOf(this.prop)!== -1) {
+            rule = list ;
+          }
+        });
+        return rule;
+      },
       getFilteredRule (trigger) {
         const rules = this.getRules();
 
         return rules.filter(rule => !rule.trigger || rule.trigger.indexOf(trigger) !== -1);
       },
       validate(trigger, callback = function () {}) {
+        console.log('validate')
         const rules = this.getFilteredRule(trigger);
         if (!rules || rules.length === 0) {
           callback();
@@ -192,8 +239,8 @@
 
         model[this.prop] = this.fieldValue;
         validator.validate(model, { firstFields: true }, errors => {
-          this.validateState = !errors ? 'success' : 'error';
-          this.validateMessage = errors ? message : '';
+//          this.validateState = !errors ? 'success' : 'error';
+//          this.validateMessage = errors ? message : '';
 
           callback(this.validateMessage);
         });
@@ -230,6 +277,9 @@
       },
       onFieldBlur() {
         this.validate('blur');
+        this.validateRequireAtLeastOne(function(){
+
+        });
       },
       onFieldChange() {
         if (this.validateDisabled) {
@@ -238,6 +288,9 @@
         }
 
         this.validate('change');
+        this.validateRequireAtLeastOne(function(){
+
+        });
       }
     },
     mounted () {

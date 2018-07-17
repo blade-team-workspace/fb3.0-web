@@ -91,7 +91,7 @@ const state = {
     ],
     rules : {
 
-      // multimedia_text:[{ required: true, message: 'The multi cannot be empty', trigger: 'blur'}]
+      text1:[{ required: true, message: 'The multi cannot be empty', trigger: 'blur'}]
     },
     groupRules: {
       requireAtLeastOne: [

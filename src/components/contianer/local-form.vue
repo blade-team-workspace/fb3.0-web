@@ -88,6 +88,19 @@
           });
         });
       },
+      validateRequiredAtLeastOne (callback) {
+
+        var groupRulesRequiredList = this.groupRules.requireAtLeastOne;
+        groupRulesRequiredList.forEach(rule => { //['a','b']
+          const field = this.fields.filter(field => field.prop === rule[0])[0];//只去每个rules的第一位做校验
+          field.validateRequireAtLeastOne(valid =>{
+
+            console.log(valid);
+          })
+
+
+        })
+      },
       validateRequired (callback) {
         return new Promise(resolve => {
         var groupRulesRequiredList = this.groupRules.requireAtLeastOne;
@@ -102,22 +115,30 @@
         })
         console.log('fieldList')
         console.log(fieldList)
-        var valid = false;
+        var valid_total = false;
         fieldList.forEach(rulesList => {
           console.log(rulesList)
           rulesList.forEach(field => {
             var  count = 0;
-            field.validateRequire("", errors => {
+            var valid = false;
+            field.validateRequire("123", errors => {
               if (errors) {
-                valid = false;
-                rulesList.forEach(a =>{
-                  a.validateState = 'error';
-                  a.validateMessage = '几项选一';
-                  a.validateDisabled = false;
-                })
-                return;
+              } else {
+                valid = true;
               }
               if (++count === rulesList.length) {
+                if(!valid) {
+                  console.log('====================')
+                  rulesList.forEach(a =>{
+                    a.validateState = 'error';
+                    a.validateMessage = '几项选一';
+                    a.validateDisabled = false;
+                  })
+                } else {
+                  rulesList.forEach (a => {
+                    a.resetField()
+                  });
+                }
                 // all finish
                 resolve(valid);
                 if (typeof callback === 'function') {
@@ -128,6 +149,20 @@
           })
         })
       })
+      },
+
+      validateSingleRule (rule) {
+
+//        rule:['a','b']
+        var valid = true;
+        //找一个组件校验即可
+        const field = this.fields.filter(field => field.prop === rule[0])[0];
+        field.validateRequireAtLeastOne (error =>{
+          if(error){
+            valid = false;
+          }
+        });
+        return valid;
       },
       validateField(prop, cb) {
         const field = this.fields.filter(field => field.prop === prop)[0];
