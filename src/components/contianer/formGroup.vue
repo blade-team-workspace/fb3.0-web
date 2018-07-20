@@ -35,6 +35,19 @@
         :item="container.items[0]">
       </bpmSelect>
 
+      <bpmImage
+        ref="component"
+        v-if="container.items[0].type ==='image' "
+        v-model="values[container.items[0].name]"
+        :item="container.items[0]">
+      </bpmImage>
+
+      <bpmNumber
+        ref="component"
+        v-if="container.items[0].type ==='number' "
+        v-model="values[container.items[0].name]"
+        :item="container.items[0]">
+      </bpmNumber>
       </Col>
     </Row>
   </div>
@@ -47,6 +60,8 @@
   import bpmSelect from '../component/select'
   import bpmLabel from '../component/label'
   import bpmTextArea from '../component/textarea'
+  import bpmImage from '../component/image'
+  import bpmNumber from '../component/number'
 
   export default {
     created() {
@@ -80,7 +95,7 @@
       }
     },
     components: {
-      bpmText, bpmSelect, bpmLabel , bpmTextArea
+      bpmText, bpmSelect, bpmLabel , bpmTextArea ,bpmImage ,bpmNumber
     },
     methods: {
       showChildComponent() {

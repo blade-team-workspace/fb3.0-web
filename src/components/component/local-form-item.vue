@@ -151,10 +151,15 @@
 
         return [].concat(selfRules || formRules || []);
       },
-      validateRequireAtLeastOne(callback = function(){}){
+      validateRequireAtLeastOne(aaa,callback = function(){}){
 
+        console.log(callback)
         console.log('validateRequireAtLeastOne')
         var rule = this.getFilterGroupRules();
+        if(rule === undefined) {
+//          callback();
+          return true;
+        }
         var fields =[];
         rule.forEach(item => {
           const field = this.form.fields.filter(field => field.prop === item)[0];
@@ -185,7 +190,7 @@
               field.validateMessage = '';
             })
         }
-        callback(hasValue);
+//        callback(hasValue);
       },
       getFilterGroupRules() {
         var rule;
@@ -228,25 +233,6 @@
         });
         this.validateDisabled = false;
       },
-      validateRequire(message,callback){
-        // 现只支持requireAtLeastOne
-        this.validateState = 'validating';
-        let descriptor = {};
-        descriptor[this.prop] = {required:true} ;//规则
-
-        const validator = new AsyncValidator(descriptor);
-        let model = {};
-
-        model[this.prop] = this.fieldValue;
-        validator.validate(model, { firstFields: true }, errors => {
-//          this.validateState = !errors ? 'success' : 'error';
-//          this.validateMessage = errors ? message : '';
-
-          callback(this.validateMessage);
-        });
-        this.validateDisabled = false;
-
-      },
       resetField () {
         this.validateState = '';
         this.validateMessage = '';
@@ -277,9 +263,7 @@
       },
       onFieldBlur() {
         this.validate('blur');
-        this.validateRequireAtLeastOne(function(){
 
-        });
       },
       onFieldChange() {
         if (this.validateDisabled) {
@@ -288,9 +272,7 @@
         }
 
         this.validate('change');
-        this.validateRequireAtLeastOne(function(){
 
-        });
       }
     },
     mounted () {
@@ -314,6 +296,17 @@
           this.$on('on-form-change', this.onFieldChange);
         }
       }
+//      if(this.getFilterGroupRules() === undefined) {
+//
+//      } else {
+      this.$on('on-form-blur', this.validateRequireAtLeastOne);
+      this.$on('on-form-change', this.validateRequireAtLeastOne);
+//      }
+    },
+    _onFormCallback (aaa) {
+      console.log('122222222222222')
+      console.log(aaa)
+      this.validateRequireAtLeastOne('');
     },
     beforeDestroy () {
       this.dispatch('iForm', 'on-form-item-remove', this);

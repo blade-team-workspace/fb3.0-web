@@ -50,12 +50,16 @@ const state = {
       },
       {
         isShow:true,
-        label: "单行文本input",
+        label: "number",
         type: "form-group",
         groupId: "group0",
-        items: [{
-          name: "text1",
-          type: "text"
+        items: [ {
+          "label": "任务",
+          "name": "b22",
+          "type": "number",
+          "minValue": 0,
+          "maxValue": 10,
+          "stepValue": 0.5
         }]
       },
       {
@@ -65,7 +69,7 @@ const state = {
         groupId: "group0",
         items: [{
           name: "textArea1",
-          type: "textArea"
+          type: "text"
         }]
       },
       {
@@ -87,15 +91,25 @@ const state = {
             value: 3
           }]
         }]
+      },
+      {
+        isShow:true,
+        label: "图片选择",
+        type: "form-group",
+        groupId: "group0",
+        items: [{
+          name: "image11",
+          type: "image"
+        }]
       }
     ],
     rules : {
 
-      text1:[{ required: true, message: 'The multi cannot be empty', trigger: 'blur'}]
+      textArea1:[{ required: true, message: 'The multi cannot be empty', trigger: 'blur'}]
     },
     groupRules: {
       requireAtLeastOne: [
-         ["multimedia_text", "text1"]
+         ["select1222", "multimedia_text"]
       ]
     },
       events : [

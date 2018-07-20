@@ -6,7 +6,9 @@ const state = {
   textArea_multi:"",
   select1222:"",
   multimedia_text:"",
-  multimedia_select:2
+  multimedia_select:2,
+  image11:[{url:'https://o5wwk8baw.qnssl.com/a42bdcc1178e62b4694c830f028db5c0/avatar',name:123},
+           {url:'https://o5wwk8baw.qnssl.com/bc7521e033abdd1e92222d733590f104/avatar',name:666}]
 }
 
 const getters = {

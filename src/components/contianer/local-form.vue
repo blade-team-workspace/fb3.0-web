@@ -93,8 +93,9 @@
         var groupRulesRequiredList = this.groupRules.requireAtLeastOne;
         groupRulesRequiredList.forEach(rule => { //['a','b']
           const field = this.fields.filter(field => field.prop === rule[0])[0];//只去每个rules的第一位做校验
-          field.validateRequireAtLeastOne(valid =>{
+          field.validateRequireAtLeastOne('',valid =>{
 
+            console.log('============')
             console.log(valid);
           })
 

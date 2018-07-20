@@ -5,7 +5,8 @@ const state = {
     textArea1:true,
     select1222:true,
     multimedia_text:true,
-    multimedia_select:true
+    multimedia_select:true,
+    image11:true
   }
 
 }

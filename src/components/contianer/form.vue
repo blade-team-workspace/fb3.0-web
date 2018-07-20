@@ -239,10 +239,10 @@
       handleSubmit (name) {
         this.$refs[name].validate((valid) => {
           if (valid) {
-             this.$Message.success('Success!');
+
              this.$refs[name].validateRequiredAtLeastOne (valid =>{
-             console.log(valid)
-        });
+               this.$Message.success('Success!');
+             });
           } else {
             this.$Message.error('Fail!');
           }
