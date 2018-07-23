@@ -6,7 +6,9 @@ const state = {
     select1222:true,
     multimedia_text:true,
     multimedia_select:true,
-    image11:true
+    image11:true,
+    stream_read1:true,
+    stream_read:true
   }
 
 }

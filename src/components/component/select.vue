@@ -9,6 +9,7 @@
 <script>
 //  import store from '../../store/store'
 import BpmFormItem from './local-form-item'
+import $ from 'jquery'
   export default {
 
     created() {
@@ -24,6 +25,7 @@ import BpmFormItem from './local-form-item'
       return {
         option: this.item.options,
         componentValue: this.$store.state.values[this.item.name],
+        events: this.findSelfEvent()
       }
     },
     props : {
@@ -40,24 +42,29 @@ import BpmFormItem from './local-form-item'
 
     },
     methods : {
+      findSelfEvent() {
+
+        var events = this.$store.state.form.form.events
+
+        var  value = undefined;
+        var name = this.item.name
+        $.each(events, (index, event) => {
+          if (event.trigger === name) {
+
+            value = event;
+          }
+        })
+
+        return value;
+      },
       eventTrigger (v) {
 
+        this.componentValue = v;
         console.log('select 事件触发');
         console.log(v);
-//        var name = this.itemData.name;
-//        var rules = store.state.rules;
-//        $.each(rules ,  (index , rule)=> {
-//
-//          if(rule.trigger === name) {
-//             this.$emit('eventTrigger' , {
-//               "trigger":name,
-//               "valueResps":rule.valueResps,
-//               "value":v,
-//               "type":'valueChangeShowHide'
-//             })
-//          }
-//        })
+        console.log(this.componentValue)
         this.$emit('input',v)
+        this.$bus.emit('triggerEvents',this.events ,this.componentValue);
      }
     },
     components : {

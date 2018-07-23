@@ -4,7 +4,7 @@
 
 
 
-  <div class="from-group" v-if="showOrhide">
+  <div class="from-group" v-if="componentShow">
     <Row>
       <Col span="8">
 
@@ -25,6 +25,7 @@
       <bpmTextArea
         ref="component"
         v-if="container.items[0].type ==='textArea' "
+        v-model="values[container.items[0].name]"
         :item="container.items[0]">
       </bpmTextArea>
 

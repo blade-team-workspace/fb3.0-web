@@ -7,23 +7,7 @@ const state = {
     type: "form",
     isRead:false,
     items:[
-      // {
-      //   isShow:true,
-      //   type:"stream",
-      //   groupId: "group0",
-      //   items: [{
-      //
-      //     name: "stream_read1",
-      //     type: "stream-label",
-      //     label: "轻轻地,我走了"
-      //   },
-      //     {
-      //       name: "stream_read",
-      //       type: "text"
-      //     }
-      //
-      //   ]
-      // },
+
       {
         isShow:true,
         label: "multimedia-测试",
@@ -68,7 +52,7 @@ const state = {
         type: "form-group",
         groupId: "group0",
         items: [{
-          name: "textArea1",
+          name: "text1",
           type: "text"
         }]
       },

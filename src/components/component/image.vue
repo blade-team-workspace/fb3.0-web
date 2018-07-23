@@ -15,7 +15,7 @@
   <Upload
     ref="upload"
     :show-upload-list="false"
-    :default-file-list="componentValue"
+    :default-file-list="defaultList"
     :on-success="handleSuccess"
     :format="['jpg','jpeg','png']"
     :data="{token:'pBwzxNPBDAAD9cJaND2xh3TkgtTilQERWHSByAQ_:9CNVM9IegER_FjIbGKw3qcjTvIQ=:eyJzY29wZSI6ImJwbXRlc3QiLCJkZWFkbGluZSI6MTU0OTIxNTMxNX0='}"
@@ -59,7 +59,16 @@
         imgName: '',
         visible: false,
         uploadList: [],
-        componentValue : this.$store.state.values[this.item.name]
+        componentValue : this.$store.state.values[this.item.name],
+
+      }
+    },
+    watch : {
+      uploadList : function (val,old) {
+        this.componentValue = [];//每次都重新赋值componentValue
+        val.forEach(item =>{
+          this.componentValue.push({url:item.url,name:item.name})
+        })
       }
     },
     methods: {
@@ -73,7 +82,7 @@
         this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
       },
       handleSuccess (res, file) {
-        console.log(this.componentValue)
+        console.log(this.uploadList)
         file.url = 'http://olt0d7mfp.bkt.clouddn.com/' + res.key;
         file.name = res.key;
       },

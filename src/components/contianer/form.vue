@@ -3,7 +3,7 @@
   <FormItem>
     <Button type="primary" @click="handleSubmit('formValidate')">Submit</Button></FormItem>
   <Button type="primary" @click="tes">test</Button></FormItem>
-  <div class="container" v-for="item in containers">
+  <div class="container" ref="asd" v-for="item in containers">
     <fromGroup  v-if="item.type == 'form-group'"
                 :label="item.label"
                 :container="item"
@@ -21,6 +21,7 @@
     <stream  v-if="item.type == 'stream'"
              :container="item"
              :isRead="isRead"
+             :values="formValues"
     >
     </stream>
   </div>
@@ -80,102 +81,28 @@
     },
     methods : {
       tes() {
-      /*  const schema = new Schema({
-          name: {
-            type: 'string',
-            required: true,
-            min: 5,
-            max: 10,
-          },
-          address: {
-            type: 'object',
-            required: true,
-            fields: {
-              province: {
-                type: 'string',
-                required: true,
-                min: 4,
-              },
-              city: {
-                type: 'string',
-                message: 'custom message',
-                min: 5,
-              },
-              async: {
-                validator(rule, value, callback) {
-                  setTimeout(() => {
-                    callback(rule.message);
-                  }, 100);
-                },
-                message: 'address async fails',
-              },
-            },
-          },
-          async: {
-            validator(rule, value, callback) {
-              setTimeout(() => {
-                callback([new Error(rule.message)]);
-              }, 100);
-            },
-            message: 'async fails',
-          },
-        });
 
-        schema.validate({
-          name: 2,
-          address: {
-            city: 2,
-          },
-          async: '2',
-        }, (errors, fields) => {
-          console.log('errors');
-          console.log(errors);
-          console.log('fields');
-          console.log(fields);
-        });*/
-      var p = new Promise((resolve,reject)=>{
-        const a = new Schema({name:{required: true}})
-        a.validate({name:''},(errors, fields) => {
-          console.log('pppp');
+        console.log(this.$refs['formValidate'].$children.length);
+        this.$refs['formValidate'].$children.forEach(item => {
+          console.log(item.$refs['component']);
+          if(item.$refs['component']!== undefined  ){
+            if($.isArray(item.$refs['component'])){
 
-          if(errors){
+            item.$refs['component'].forEach(aa =>{
+              console.log(aa.item.name);
+              console.log('=============');
+              console.log(aa.componentValue);
 
-            reject('erro name')
+            })
           }else {
-            resolve('p is Ok')
-          }
-        })
-      });
-        var b = new Promise((resolve,reject)=>{
-          const a = new Schema({came:{required: true}})
-          a.validate({came:'asd'},(errors, fields) => {
-            if(errors){
-
-              reject('erro came')
-            }else {
-              resolve('a is Ok')
+              console.log(item.$refs['component'].item.name)
+              console.log('=============');
+              console.log(item.$refs['component'].componentValue)
             }
-          })
-        });
-        p.then(function (data){
-          console.log('in then');
-          console.log(data);
-          return b
-        }).then(function (data){
-          console.log('in then');
-          console.log(data);
-        }).catch(function (error){
+          }
 
-          console.log('error');
-          console.log(error);
         })
-//      const a = new Schema({name:{required: true}})
-//        a.validate({name:'a'},(errors, fields) => {
-//          console.log('errors');
-//          console.log(errors);
-//          console.log('fields');
-//          console.log(fields);
-//        })
+
       },
       total (callback) {
         return new Promise(resolve => {
@@ -261,6 +188,7 @@
         })
       },
       eventDispatchForTrigger (event,value ) {
+        console.log('trigger_event')
         if(event.eventType === 'valueChangeShowHide' ){
           this.valueChangeShowHide(event,value);
         }

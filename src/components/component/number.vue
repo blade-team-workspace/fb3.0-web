@@ -55,7 +55,7 @@
     },
       methods: {
         eventTrigger(v) {
-
+          this.componentValue = v;
           console.log('select 事件触发');
           console.log(v);
 //        var name = this.itemData.name;
