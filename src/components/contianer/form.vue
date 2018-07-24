@@ -1,10 +1,11 @@
 <template>
 <iForm  ref="formValidate" :id="url" :model="formValues" :rules="rules" :groupRules="groupRules" >
   <FormItem>
-    <Button type="primary" @click="handleSubmit('formValidate')">Submit</Button></FormItem>
+    <Button type="primary" @click="handleSubmit">Submit</Button></FormItem>
   <Button type="primary" @click="tes">test</Button></FormItem>
-  <div class="container" ref="asd" v-for="item in containers">
+  <div class="container"  v-for="item in containers">
     <fromGroup  v-if="item.type == 'form-group'"
+                ref="container"
                 :label="item.label"
                 :container="item"
                 :values="formValues"
@@ -12,6 +13,7 @@
     >
     </fromGroup>
     <multiMedia  v-if="item.type == 'multimedia'"
+                 ref="container"
                  :label="item.label"
                  :container="item"
                  :isRead="isRead"
@@ -19,6 +21,7 @@
     >
     </multiMedia>
     <stream  v-if="item.type == 'stream'"
+             ref="container"
              :container="item"
              :isRead="isRead"
              :values="formValues"
@@ -30,6 +33,7 @@
 </template>
 
 <script>
+  import logger from '../../utils/logger'
   import Schema from 'async-validator';
   import iForm from './local-form.vue'
   import fromGroup from './formGroup.vue'
@@ -42,6 +46,18 @@
 
       return {
         formValues:{
+          select1:3,
+          textArea1:"",
+          text1:"",
+          select3:"",
+          textArea_multi:"",
+          select1222:"",
+          multimedia_text:"",
+          multimedia_select:2,
+          image11:[{url:'https://o5wwk8baw.qnssl.com/a42bdcc1178e62b4694c830f028db5c0/avatar',name:123},
+          ],
+          stream_read1: "",
+          stream_read:""
         },
         fields:[]
       }
@@ -57,26 +73,15 @@
       rules : state=>state.form.rules,
       groupRules : state=>state.form.groupRules
     })
-//      formValues : function () {
-//
-//      console.log(this.$store.state.values)
-//        return this.$store.state.values;
-//      }
+
 
     },
     created() {
 
-
-       this.total(valid=>{
-         console.log('totol')
-         console.log(valid)
-       })
-//      this.formValues = this.$store.state.values;
-//      console.log(this.formValues)
+      console.log(this.formValues)
+      //事件绑定初始化走一遍
       this.eventDispatch(this.events);
-      this.$bus.on('addValues', this.addValues);
 
-      this.$bus.on('addField',this.addField)
       this.$bus.on('triggerEvents', this.eventDispatchForTrigger);
     },
     methods : {
@@ -85,7 +90,7 @@
         console.log(this.$refs['formValidate'].$children.length);
         this.$refs['formValidate'].$children.forEach(item => {
           console.log(item.$refs['component']);
-          if(item.$refs['component']!== undefined  ){
+          if(item.$refs['component']!== undefined){
             if($.isArray(item.$refs['component'])){
 
             item.$refs['component'].forEach(aa =>{
@@ -104,70 +109,12 @@
         })
 
       },
-      total (callback) {
-        return new Promise(resolve => {
-        var values = [{key: 'name', value: '123'}, {key: 'age', value: 'asd'}]
 
-        let count = 0;
-        let valid = true;
-
-        values.forEach(field => {
-        /*  field.validate('', errors => {
-            if (errors) {
-              valid = false;
-            }
-            if (++count === values.length) {
-              // all finish
-              resolve(valid);
-              if (typeof callback === 'function') {
-                callback(valid);
-              }
-            }
-          })*/
-          this.aaa(field,function (errors){
-            if (errors) {
-              valid = false;
-            }
-            if (++count === values.length) {
-              // all finish
-              resolve(valid);
-              if (typeof callback === 'function') {
-                callback(valid);
-              }
-            }
-          })
-        })
-      })
-      },
-      aaa(data,callback = function(){}) {
-
-        var rule = {};
-        rule[data.key] = {required: true}
-        const a = new Schema(rule);
-        var value = {};
-        value[data.key] = data.value;
-        a.validate(value, (errors, fields) => {
-          if (errors) {
-            callback(data.key + ' :something worong')
-          } else {
-            callback()
-          }
-        })
-
-      },
-      addValues(ob) {
-        this.formValues[ob.name] = ob.value;
-      },
-      addField(obj) {
-//        console.log('addField')
-        console.log(obj)
-        this.fields.push(obj)
-      },
-      handleSubmit (name) {
-        this.$refs[name].validate((valid) => {
+      handleSubmit () {
+        this.$refs['formValidate'].validate((valid) => {
           if (valid) {
 
-             this.$refs[name].validateRequiredAtLeastOne (valid =>{
+             this.$refs['formValidate'].validateRequiredAtLeastOne (valid =>{
                this.$Message.success('Success!');
              });
           } else {
@@ -289,7 +236,6 @@
       },
       convertComponentStatus ( payload ) {
 
-//        this.$store._mutations['status/convertStatus',payload];
         this.$store.commit('status/convertStatus',payload)
 
       }

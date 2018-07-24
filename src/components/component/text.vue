@@ -12,15 +12,15 @@ export default {
 
   created() {
 
-    this.$bus.emit('addValues',{
-      name:this.item.name,
-      value:this.componentValue
-    });
+//    this.$bus.emit('addValues',{
+//      name:this.item.name,
+//      value:this.componentValue
+//    });
 
 
   },
   mounted() {
-    this.$bus.emit('addField',this)
+//    this.$bus.emit('addField',this)
   },
   data () {
     return {
@@ -38,6 +38,7 @@ export default {
     eventBlur(e) {
 
       console.log('eventBlur_text');
+      console.log(e)
       console.log(e.target.value);
 
        this.$emit('input',e.target.value)

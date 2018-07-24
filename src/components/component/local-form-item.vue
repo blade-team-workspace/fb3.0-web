@@ -13,6 +13,7 @@
   import AsyncValidator from 'async-validator';
   import Emitter from 'iview/src/mixins/emitter';
 
+  import logger from '../../utils/logger'
   const prefixCls = 'ivu-form-item';
 
   function getPropByPath(obj, path) {
@@ -151,46 +152,56 @@
 
         return [].concat(selfRules || formRules || []);
       },
-      validateRequireAtLeastOne(aaa,callback = function(){}){
+      validateRequireAtLeastOne(unused,callback = function(){}){
 
-        console.log(callback)
-        console.log('validateRequireAtLeastOne')
+        logger.debug('------- 组校验开始 -------')
         var rule = this.getFilterGroupRules();
         if(rule === undefined) {
-//          callback();
+          logger.debug(this.prop + '没有组校验')
+          logger.debug('------- 组校验结束 -------')
+          callback();
           return true;
         }
         var fields =[];
+        logger.debug(this.prop + '组校验规则 ：');
+        logger.debug(rule);
         rule.forEach(item => {
           const field = this.form.fields.filter(field => field.prop === item)[0];
           fields.push(field)
-        })
+        });
         var hasValue = false;
         var message = [];
         fields.forEach(field => {
           message.push(field.prop);
           if(field.fieldValue === '' || field.fieldValue ===[]){
               //  没值
+            logger.debug(field.prop + '没值');
           } else {
               //  有值
               hasValue = true;
-
+            logger.debug(field.prop + '有值，值为：' )
+            logger.debug(field.fieldValue);
           }
         })
+
         if(!hasValue) {
-          fields.forEach(field => {
+            logger.debug('校验失败')
+            fields.forEach(field => {
+
             field.validateState = 'error';
             field.validateMessage = message.join(',') + '必填一项';
             field.validateDisabled = false;
           });
 
         } else {
+            logger.debug('校验成功')
             fields.forEach(field => {
               field.validateState = '';
               field.validateMessage = '';
             })
         }
-//        callback(hasValue);
+        callback(hasValue);
+        console.log('------- 组校验结束 -------')
       },
       getFilterGroupRules() {
         var rule;
@@ -302,11 +313,6 @@
       this.$on('on-form-blur', this.validateRequireAtLeastOne);
       this.$on('on-form-change', this.validateRequireAtLeastOne);
 //      }
-    },
-    _onFormCallback (aaa) {
-      console.log('122222222222222')
-      console.log(aaa)
-      this.validateRequireAtLeastOne('');
     },
     beforeDestroy () {
       this.dispatch('iForm', 'on-form-item-remove', this);

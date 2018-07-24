@@ -9,6 +9,7 @@
 <script>
 //  import store from '../../store/store'
 import BpmFormItem from './local-form-item'
+import logger from '../../utils/logger'
 import $ from 'jquery'
   export default {
 
@@ -61,9 +62,8 @@ import $ from 'jquery'
 
         this.componentValue = v;
         console.log('select 事件触发');
-        console.log(v);
-        console.log(this.componentValue)
         this.$emit('input',v)
+        if(this.events !== undefined)
         this.$bus.emit('triggerEvents',this.events ,this.componentValue);
      }
     },

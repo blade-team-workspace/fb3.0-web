@@ -1,6 +1,6 @@
 <template>
-<div class="label123"  > {{value}}</div>
-</template>x
+<div class="label123" > {{value}}</div>
+</template>
 
 <script>
 export  default  {
