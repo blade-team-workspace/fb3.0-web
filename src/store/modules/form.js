@@ -75,7 +75,8 @@ const state = {
             value: 3
           }]
         }]
-      },
+      }
+      ,
       {
         isShow:true,
         label: "图片选择",
@@ -103,7 +104,7 @@ const state = {
       valueResps: {
         1: "",
         2: "",
-        3: ["text1"]
+        3: ["multimedia_select，multimedia_text"]
       }
     }
 

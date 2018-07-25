@@ -12,10 +12,10 @@ export default {
 
   created() {
 
-//    this.$bus.emit('addValues',{
-//      name:this.item.name,
-//      value:this.componentValue
-//    });
+    this.$bus.emit('addValues',{
+      name:this.item.name,
+      value:this.componentValue
+    });
 
 
   },

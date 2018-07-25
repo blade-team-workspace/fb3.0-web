@@ -2,7 +2,7 @@
 <iForm  ref="formValidate" :id="url" :model="formValues" :rules="rules" :groupRules="groupRules" >
   <FormItem>
     <Button type="primary" @click="handleSubmit">Submit</Button></FormItem>
-  <Button type="primary" @click="tes">test</Button></FormItem>
+  <Button type="primary" @click="tes">tes</Button></FormItem>
   <div class="container"  v-for="item in containers">
     <fromGroup  v-if="item.type == 'form-group'"
                 ref="container"
@@ -45,20 +45,7 @@
     data() {
 
       return {
-        formValues:{
-          select1:3,
-          textArea1:"",
-          text1:"",
-          select3:"",
-          textArea_multi:"",
-          select1222:"",
-          multimedia_text:"",
-          multimedia_select:2,
-          image11:[{url:'https://o5wwk8baw.qnssl.com/a42bdcc1178e62b4694c830f028db5c0/avatar',name:123},
-          ],
-          stream_read1: "",
-          stream_read:""
-        },
+        formValues : {},
         fields:[]
       }
     },
@@ -78,36 +65,38 @@
     },
     created() {
 
-      console.log(this.formValues)
       //事件绑定初始化走一遍
       this.eventDispatch(this.events);
 
       this.$bus.on('triggerEvents', this.eventDispatchForTrigger);
+      this.$bus.on('addValues',this.addValues)
     },
     methods : {
       tes() {
 
-        console.log(this.$refs['formValidate'].$children.length);
+        var values = {};
         this.$refs['formValidate'].$children.forEach(item => {
-          console.log(item.$refs['component']);
+//          console.log(item.$refs['component']);
           if(item.$refs['component']!== undefined){
             if($.isArray(item.$refs['component'])){
 
             item.$refs['component'].forEach(aa =>{
-              console.log(aa.item.name);
-              console.log('=============');
-              console.log(aa.componentValue);
+//              console.log(aa.item.name);
+              values[aa.item.name] = aa.componentValue;
+//              console.log(aa.componentValue);
 
             })
           }else {
-              console.log(item.$refs['component'].item.name)
-              console.log('=============');
-              console.log(item.$refs['component'].componentValue)
+//              console.log(item.$refs['component'].item.name)
+//              console.log('=============');
+              values[item.$refs['component'].item.name] = item.$refs['component'].componentValue;
+//              console.log(item.$refs['component'].componentValue)
             }
           }
 
         })
-
+        logger.debug(' -------- form表单值 ------')
+        logger.debug(values)
       },
 
       handleSubmit () {
@@ -127,49 +116,67 @@
 //        })
 
       },
+      getValue () {
+        this.$refs['formValidate'].getFormValues();
+      },
+      addValues (obj) {
+        this.formValues[obj.name] = obj.value;
+      },
       eventDispatch (events) {
+        logger.debug('------- 初始化事件 -------')
         $.each (events, (index , event) => {
           if(event.eventType === 'valueChangeShowHide' ){
             this.valueChangeShowHide(event);
           }
         })
+
+        logger.debug('------- 初始化事件结束 -------')
       },
       eventDispatchForTrigger (event,value ) {
-        console.log('trigger_event')
+
         if(event.eventType === 'valueChangeShowHide' ){
           this.valueChangeShowHide(event,value);
         }
       },
       valueChangeShowHide ( event , value) {
+        logger.debug('---- 组件' +event.trigger + ' 联动开始 ----')
         var trigger = event.trigger;
         var allResp = [];	// 所有层
         var valueResps = [];//value层
         allResp =  this.getAllResp(event.valueResps);
-        console.log('valueChangeShowHide')
-        console.log(allResp)
+        logger.debug('所有关联组件:');
+        logger.debug(allResp)
+        var target = value!== undefined?value:this.$store.state.values[trigger]
         valueResps =  this.getValueReps(event,value!== undefined?value:this.$store.state.values[trigger])
-        console.log(' ----- valueResps ----- ')
+        logger.debug('当前选项:' + target + '' + ' 当前选项关联组件 ：');
         console.log(valueResps);
         $.each(allResp , (index , value ) => {
+          console.log('9999999')
+          console.log(allResp)
           if(valueResps.contains(value)) {
 
             this.convertComponentStatus({
               name :value,
               isShow :true
             });
+            logger.debug(value + '显示')
           } else {
 
             this.convertComponentStatus({
               name :value,
               isShow :false
             });
+            logger.debug(value + '隐藏')
           }
         })
+        logger.debug('---- 组件' +event.trigger + ' 联动结束 ----')
       },
       getAllResp (reps) {
         var allResp = [];
         $.each(reps , function (index ,valueResp) {
           if($.isArray(this)) {
+            console.log('22222');
+            console.log(this);
             $.each(this, function(_idx) {
               if(  !allResp.contains(this.toString()) && this.toString() !== '') {
                 allResp.add(this.toString());
@@ -182,10 +189,10 @@
             }
           }
         })
+
         return allResp;
       },
       getValueReps (event ,values) { // 根据value来查找去重对应的
-        console.log(values);
         var repsValues = [];
         if(values!==undefined) {
           if($.isArray(values)) {

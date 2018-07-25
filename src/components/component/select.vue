@@ -61,10 +61,14 @@ import $ from 'jquery'
       eventTrigger (v) {
 
         this.componentValue = v;
-        console.log('select 事件触发');
         this.$emit('input',v)
-        if(this.events !== undefined)
-        this.$bus.emit('triggerEvents',this.events ,this.componentValue);
+         if(this.events !== undefined){
+          logger.debug(this.item.name + '事件触发');
+          logger.debug('event:' );
+          logger.debug(this.events)
+          logger.debug('value:' + this.componentValue)
+          this.$bus.emit('triggerEvents',this.events ,this.componentValue);
+        }
      }
     },
     components : {

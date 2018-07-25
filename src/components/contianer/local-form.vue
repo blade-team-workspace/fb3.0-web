@@ -4,7 +4,7 @@
 <script>
   // https://github.com/ElemeFE/element/blob/dev/packages/form/src/form.vue
   import { oneOf } from 'iview/src/utils/assist';
-
+  import logger from '../../utils/logger'
   const prefixCls = 'ivu-form';
 
   export default {
@@ -107,7 +107,7 @@
         if (!field) { throw new Error('[iView warn]: must call validateField with valid prop string!'); }
 
         field.validate('', cb);
-      }
+      },
     },
     watch: {
       rules() {

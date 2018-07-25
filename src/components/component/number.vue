@@ -7,20 +7,20 @@
 </template>
 
 <script>
-  //  import store from '../../store/store'
+  import logger from '../../utils/logger'
   import BpmFormItem from './local-form-item'
   export default {
 
     created() {
-      this.$bus.emit('addValues', {
-        name: this.item.name,
-        value: this.componentValue
+      this.$bus.emit('addValues',{
+        name:this.item.name,
+        value:this.componentValue
       });
-
     },
     data() {
       return {
         componentValue: this.$store.state.values[this.item.name],
+        events: this.findSelfEvent()
       }
     },
     props: {
@@ -56,23 +56,30 @@
       methods: {
         eventTrigger(v) {
           this.componentValue = v;
-          console.log('select 事件触发');
-          console.log(v);
-//        var name = this.itemData.name;
-//        var rules = store.state.rules;
-//        $.each(rules ,  (index , rule)=> {
-//
-//          if(rule.trigger === name) {
-//             this.$emit('eventTrigger' , {
-//               "trigger":name,
-//               "valueResps":rule.valueResps,
-//               "value":v,
-//               "type":'valueChangeShowHide'
-//             })
-//          }
-//        })
-          this.$emit('input', v)
-        }
+          this.$emit('input',v)
+          if(this.events !== undefined){
+            logger.debug(this.item.name + '事件触发');
+            logger.debug('event:' );
+            logger.debug(this.events)
+            logger.debug('value:' + this.componentValue)
+            this.$bus.emit('triggerEvents',this.events ,this.componentValue);
+          }
+        },
+        findSelfEvent() {
+
+          var events = this.$store.state.form.form.events
+
+          var  value = undefined;
+          var name = this.item.name
+          $.each(events, (index, event) => {
+            if (event.trigger === name) {
+
+              value = event;
+            }
+          })
+
+          return value;
+        },
       },
       components: {
         BpmFormItem
