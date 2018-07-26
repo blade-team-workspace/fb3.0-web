@@ -1,6 +1,7 @@
 <template>
-  <div>
-  <div class="demo-upload-list" v-for="item in uploadList">
+  <BpmFormItem :prop="item.name" >
+
+    <div class="demo-upload-list" v-for="item in uploadList">
     <template v-if="item.status === 'finished'">
       <img :src="item.url">
       <div class="demo-upload-list-cover">
@@ -34,10 +35,14 @@
   <Modal title="View Image" v-model="visible">
     <img :src="'http://olt0d7mfp.bkt.clouddn.com/' + imgName " v-if="visible" style="width: 100%">
   </Modal>
-  </div>
+
+  </BpmFormItem>
 </template>
 <script>
+  import BpmFormItem from './local-form-item'
+  import Emitter from 'iview/src/mixins/emitter';
   export default {
+    mixins:[ Emitter ],
     props : {
       item : {
         type :Object,
@@ -47,15 +52,8 @@
     data () {
       return {
         defaultList: [
-          {
-            'name': 'a42bdcc1178e62b4694c830f028db5c0',
-            'url': 'https://o5wwk8baw.qnssl.com/a42bdcc1178e62b4694c830f028db5c0/avatar'
-          },
-          {
-            'name': 'bc7521e033abdd1e92222d733590f104',
-            'url': 'https://o5wwk8baw.qnssl.com/bc7521e033abdd1e92222d733590f104/avatar'
-          }
         ],
+
         imgName: '',
         visible: false,
         uploadList: [],
@@ -69,7 +67,17 @@
         val.forEach(item =>{
           this.componentValue.push({url:item.url,name:item.name})
         })
+        this.$emit('input',this.componentValue)
+        this.$emit('on-change', this.componentValue);
+        this.dispatch('FormItem', 'on-form-change', this.componentValue);
       }
+    },
+    created() {
+      this.defaultList = this.componentValue
+      this.$bus.emit('addValues',{
+        name:this.item.name,
+        value:this.componentValue
+      });
     },
     methods: {
       handleView (name) {
@@ -107,6 +115,9 @@
         }
         return check;
       }
+    },
+    components : {
+      BpmFormItem
     },
     mounted () {
       this.uploadList = this.$refs.upload.fileList;

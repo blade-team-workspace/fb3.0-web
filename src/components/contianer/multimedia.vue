@@ -38,14 +38,14 @@
 
         <bpmText
           ref="component"
-          v-if="item.type ==='text' "
+          v-if="item.type ==='text'  && $store.state.status.class[item.name]"
           v-model="values[item.name]"
           :item="item">
         </bpmText>
 
         <bpmTextArea
           ref="component"
-          v-if="item.type ==='textArea' "
+          v-if="item.type ==='textArea'&& $store.state.status.class[item.name] "
           v-model="values[item.name]"
           :item="item">
         </bpmTextArea>
@@ -53,7 +53,7 @@
         <bpmSelect
           ref="component"
           v-model="values[item.name]"
-          v-if="item.type ==='select' "
+          v-if="item.type ==='select' && $store.state.status.class[item.name] "
           :item="item">
         </bpmSelect>
 

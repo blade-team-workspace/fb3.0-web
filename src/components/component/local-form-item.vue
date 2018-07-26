@@ -167,6 +167,7 @@
         logger.debug(rule);
         rule.forEach(item => {
           const field = this.form.fields.filter(field => field.prop === item)[0];
+          if(field !== undefined)
           fields.push(field)
         });
         var hasValue = false;
@@ -175,10 +176,12 @@
           message.push(field.prop);
           if(field.fieldValue === '' || field.fieldValue ===[]){
               //  没值
+            console.log(field)
             logger.debug(field.prop + '没值');
           } else {
               //  有值
               hasValue = true;
+            console.log(field)
             logger.debug(field.prop + '有值，值为：' )
             logger.debug(field.fieldValue);
           }

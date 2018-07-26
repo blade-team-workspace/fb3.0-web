@@ -10,7 +10,9 @@ const state = {
   image11:[{url:'https://o5wwk8baw.qnssl.com/a42bdcc1178e62b4694c830f028db5c0/avatar',name:123},
            ],
   stream_read1: "",
-  stream_read:""
+  stream_read:"",
+  text1444 :"",
+  select1444:""
 }
 
 const getters = {

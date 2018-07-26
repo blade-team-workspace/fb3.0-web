@@ -79,6 +79,36 @@ const state = {
       ,
       {
         isShow:true,
+        label: "多行文本textArea",
+        type: "form-group",
+        groupId: "group0",
+        items: [{
+          name: "text1444",
+          type: "text"
+        }]
+      },
+      {
+        isShow:true,
+        label: "select单选",
+        type: "form-group",
+        groupId: "group0",
+        items: [{
+          name: "select1444",
+          type: "select",
+          options: [{
+            label: "选项111",
+            value: 1
+          }, {
+            label: "选项2222",
+            value: 2
+          }, {
+            label: "选项333",
+            value: 3
+          }]
+        }]
+      },
+      {
+        isShow:true,
         label: "图片选择",
         type: "form-group",
         groupId: "group0",
@@ -89,24 +119,26 @@ const state = {
       }
     ],
     rules : {
+      // textArea1:[{ required: true, message: 'The multi cannot be empty', trigger: 'blur'}],
+      image11:[{ required: true, message: 'The image cannot be empty', trigger: 'change',type:'array'}]
 
-      textArea1:[{ required: true, message: 'The multi cannot be empty', trigger: 'blur'}]
     },
     groupRules: {
       requireAtLeastOne: [
-         ["select1222", "multimedia_text"]
+         ["select1222", "multimedia_text"],
+          ['text1444',"select1444"]
       ]
     },
       events : [
-      {
-      eventType: "valueChangeShowHide",
-      trigger: "select1222",
-      valueResps: {
-        1: "",
-        2: "",
-        3: ["multimedia_select，multimedia_text"]
-      }
-    }
+    //   {
+    //   eventType: "valueChangeShowHide",
+    //   trigger: "select1222",
+    //   valueResps: {
+    //     1: "",
+    //     2: "",
+    //     3: ["multimedia_select","multimedia_text"]
+    //   }
+    // }
 
     ]
 
