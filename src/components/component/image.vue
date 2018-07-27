@@ -1,5 +1,5 @@
 <template>
-  <BpmFormItem :prop="item.name" >
+  <BpmFormItem :prop="item.name" :title="item.label">
 
     <div class="demo-upload-list" v-for="item in uploadList">
     <template v-if="item.status === 'finished'">
@@ -41,6 +41,7 @@
 <script>
   import BpmFormItem from './local-form-item'
   import Emitter from 'iview/src/mixins/emitter';
+  import logger from '../../utils/logger'
   export default {
     mixins:[ Emitter ],
     props : {
@@ -86,31 +87,32 @@
       },
       handleRemove (file) {
         const fileList = this.$refs.upload.fileList;
-        console.log(fileList)
         this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
       },
       handleSuccess (res, file) {
-        console.log(this.uploadList)
+        logger.debug('上传成功');
         file.url = 'http://olt0d7mfp.bkt.clouddn.com/' + res.key;
+        logger.debug('文件地址为：')
+        logger.debug(file.url)
         file.name = res.key;
       },
       handleFormatError (file) {
         this.$Notice.warning({
-          title: 'The file format is incorrect',
+          title: '文件格式错误',
           desc: 'File format of ' + file.name + ' is incorrect, please select jpg or png.'
         });
       },
       handleMaxSize (file) {
         this.$Notice.warning({
-          title: 'Exceeding file size limit',
+          title: '超出文件大小限制',
           desc: 'File  ' + file.name + ' is too large, no more than 2M.'
         });
       },
       handleBeforeUpload () {
-        const check = this.uploadList.length < 5;
+        const check = this.uploadList.length < this.item.maxLength;
         if (!check) {
           this.$Notice.warning({
-            title: 'Up to five pictures can be uploaded.'
+            title: '最多不能超过' + this.item.maxLength + '张图'
           });
         }
         return check;

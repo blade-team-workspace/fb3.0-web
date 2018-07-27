@@ -49,6 +49,13 @@
         v-model="values[container.items[0].name]"
         :item="container.items[0]">
       </bpmNumber>
+
+      <bpmDate
+        ref="component"
+        v-if="container.items[0].type ==='date' "
+        v-model="values[container.items[0].name]"
+        :item="container.items[0]">
+      </bpmDate>
       </Col>
     </Row>
   </div>
@@ -63,6 +70,7 @@
   import bpmTextArea from '../component/textarea'
   import bpmImage from '../component/image'
   import bpmNumber from '../component/number'
+  import bpmDate from '../component/date'
 
   export default {
     created() {
@@ -96,7 +104,7 @@
       }
     },
     components: {
-      bpmText, bpmSelect, bpmLabel , bpmTextArea ,bpmImage ,bpmNumber
+      bpmText, bpmSelect, bpmLabel , bpmTextArea ,bpmImage ,bpmNumber,bpmDate
     },
     methods: {
       showChildComponent() {

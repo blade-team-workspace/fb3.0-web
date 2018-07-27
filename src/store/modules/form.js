@@ -15,6 +15,7 @@ const state = {
         groupId: "group0",
         items: [{
 
+          label:'多选123',
           name: "multimedia_text",
           type: "text"
         },{
@@ -48,10 +49,23 @@ const state = {
       },
       {
         isShow:true,
+        label: "日期选择",
+        type: "form-group",
+        groupId: "group0",
+        items: [ {
+          "label": "日期",
+          "name": "date111",
+          "type": "date",
+
+        }]
+      },
+      {
+        isShow:true,
         label: "多行文本textArea",
         type: "form-group",
         groupId: "group0",
         items: [{
+          label:"文本1",
           name: "text1",
           type: "text"
         }]
@@ -62,6 +76,7 @@ const state = {
         type: "form-group",
         groupId: "group0",
         items: [{
+          label:"单选1222",
           name: "select1222",
           type: "select",
           options: [{
@@ -83,6 +98,7 @@ const state = {
         type: "form-group",
         groupId: "group0",
         items: [{
+          label:"文本1444",
           name: "text1444",
           type: "text"
         }]
@@ -93,6 +109,7 @@ const state = {
         type: "form-group",
         groupId: "group0",
         items: [{
+          label:"单选1444",
           name: "select1444",
           type: "select",
           options: [{
@@ -113,14 +130,16 @@ const state = {
         type: "form-group",
         groupId: "group0",
         items: [{
+          label:"图片",
           name: "image11",
-          type: "image"
+          type: "image",
+          maxLength:'3'
         }]
       }
     ],
     rules : {
       // textArea1:[{ required: true, message: 'The multi cannot be empty', trigger: 'blur'}],
-      image11:[{ required: true, message: 'The image cannot be empty', trigger: 'change',type:'array'}]
+      date111:[{ required: true, message: 'The date cannot be empty', trigger: 'change'}]
 
     },
     groupRules: {

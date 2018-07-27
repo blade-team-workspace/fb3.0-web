@@ -95,7 +95,7 @@
           const field = this.fields.filter(field => field.prop === rule[0])[0];//只去每个rules的第一位做校验
           field.validateRequireAtLeastOne('',valid =>{
 
-            console.log(valid);
+//            console.log(valid);
           })
 
 

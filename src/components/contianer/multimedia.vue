@@ -57,6 +57,19 @@
           :item="item">
         </bpmSelect>
 
+        <bpmImage
+          ref="component"
+          v-if="item.type ==='image' "
+          v-model="values[item.name]"
+          :item="item">
+        </bpmImage>
+
+        <bpmNumber
+          ref="component"
+          v-if="item.type ==='number' "
+          v-model="values[item.name]"
+          :item="item">
+        </bpmNumber>
       </div>
       </Col>
     </Row>
@@ -70,6 +83,8 @@
   import bpmSelect from '../component/select'
   import bpmLabel from '../component/label'
   import bpmRead from '../component/read'
+  import bpmNumber from '../component/number'
+  import bpmImage from '../component/image'
   export default  {
     created(){
 
@@ -92,7 +107,7 @@
 
       }
     },components :{
-      bpmText,bpmTextArea,bpmSelect,bpmLabel,bpmRead
+      bpmText,bpmTextArea,bpmSelect,bpmLabel,bpmRead,bpmNumber,bpmImage
     },
     computed : {
       showOrhide:function () {

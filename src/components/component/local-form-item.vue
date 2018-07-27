@@ -53,6 +53,9 @@
       prop: {
         type: String
       },
+      title :{
+
+      },
       required: {
         type: Boolean,
         default: false
@@ -173,15 +176,14 @@
         var hasValue = false;
         var message = [];
         fields.forEach(field => {
-          message.push(field.prop);
+          console.log(field);
+          message.push(field.title);
           if(field.fieldValue === '' || field.fieldValue ===[]){
               //  没值
-            console.log(field)
             logger.debug(field.prop + '没值');
           } else {
               //  有值
               hasValue = true;
-            console.log(field)
             logger.debug(field.prop + '有值，值为：' )
             logger.debug(field.fieldValue);
           }
@@ -204,7 +206,7 @@
             })
         }
         callback(hasValue);
-        console.log('------- 组校验结束 -------')
+        logger.debug('------- 组校验结束 -------')
       },
       getFilterGroupRules() {
         var rule;
@@ -222,10 +224,12 @@
         return rules.filter(rule => !rule.trigger || rule.trigger.indexOf(trigger) !== -1);
       },
       validate(trigger, callback = function () {}) {
-        console.log('validate')
+        logger.debug('----- rule校验开始 ------')
         const rules = this.getFilteredRule(trigger);
         if (!rules || rules.length === 0) {
           callback();
+          logger.debug(this.prop + '没有校验规则')
+          logger.debug('----- rule校验结束  ------')
           return true;
         }
 
@@ -240,12 +244,17 @@
         model[this.prop] = this.fieldValue;
 
         validator.validate(model, { firstFields: true }, errors => {
+
+
           this.validateState = !errors ? 'success' : 'error';
+          logger.debug(this.prop + ':validate :' );
+          logger.debug(errors)
           this.validateMessage = errors ? errors[0].message : '';
 
           callback(this.validateMessage);
         });
         this.validateDisabled = false;
+        logger.debug('----- rule校验结束  ------')
       },
       resetField () {
         this.validateState = '';

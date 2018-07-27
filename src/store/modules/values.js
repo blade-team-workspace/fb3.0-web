@@ -11,8 +11,10 @@ const state = {
            ],
   stream_read1: "",
   stream_read:"",
+  b22:"",
   text1444 :"",
-  select1444:""
+  select1444:"",
+  date111:"2018年07月26日"
 }
 
 const getters = {

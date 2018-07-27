@@ -1,5 +1,5 @@
 <template>
-  <BpmFormItem :prop="item.name" >
+  <BpmFormItem :prop="item.name" :title="item.label">
     <i-select  :value="componentValue" style="width:200px" @on-change="eventTrigger($event)"  :name="item.name" >
       <i-option v-for="item in option" :value="item" :key="item">{{ item }}</i-option>
     </i-select>
@@ -9,6 +9,7 @@
 <script>
   import logger from '../../utils/logger'
   import BpmFormItem from './local-form-item'
+  import $ from 'jquery'
   export default {
 
     created() {
@@ -85,8 +86,8 @@
         BpmFormItem
       },
       created () {
-        console.log('=======')
-        console.log(this.option)
+        logger.debug(this.item.label + ": " + 'options : ')
+        logger.debug(this.option)
       }
     }
 

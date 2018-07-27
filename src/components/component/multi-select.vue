@@ -1,5 +1,5 @@
 <template>
-  <BpmFormItem :prop="item.name" >
+  <BpmFormItem :prop="item.name" :title="item.label">
     <i-select  :value="componentValue" multiple  style="width:200px" @on-change="eventTrigger($event)"  :name="item.name" >
       <i-option v-for="option in item.options" :value="option.value" :key="option.value">{{ option.label }}</i-option>
     </i-select>

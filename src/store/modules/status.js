@@ -10,7 +10,9 @@ const state = {
     stream_read1:true,
     stream_read:true,
     text1444:true,
-    select1444:true
+    b22:true,
+    select1444:true,
+    date111:true
   }
 
 }
