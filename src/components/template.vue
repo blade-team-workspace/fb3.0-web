@@ -1,6 +1,7 @@
 <template>
-  <div>
-    <bpmForm  >
+  <div class="form" v-for="form in forms">
+    <bpmForm
+      :form="form">
 
     </bpmForm>
   </div>
@@ -10,20 +11,29 @@
 
 <script>
   import axios from 'axios'
-//  import store from '../store/store'
-//  import data from '../server/data'
+  import { mapState, mapActions } from 'vuex'
   import bpmForm from './contianer/form'
   import $ from 'jquery'
+  import logger from '../utils/logger'
 //  import app from '../main'
   export default {
 
      created() {
-//       this.getFormData();
-       this.init();
 
-//       this.formData = data;
+       this.init();
+       logger.debug('------- 表单数据 ----------')
+       logger.debug(this.forms)
 
      },
+    computed :{
+
+
+    },
+    data () {
+      return {
+        forms : this.$store.form
+      }
+    },
     components:{
       bpmForm
     },
@@ -36,16 +46,7 @@
       }
     },
     methods: {
-      /**
-       * 请求数据
-       */
-       getFormData () {
-//         axios.get('/class'
-//              .then((res) => {
-//                console.log(res.data.dataList);
-//                this.formsData = res.data.dataList;
-//              }))
-       },
+
       init() {
         // 扩展array类型原生方法，添加obj如果是array，就让其元素合并，否则直接加入
         Array.prototype.add = function(obj) {

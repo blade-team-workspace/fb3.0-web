@@ -46,22 +46,32 @@
 
       return {
         formValues : {},
-        fields:[]
+        fields:[],
+        url:this.form.url,
+        containers:this.form.items,
+        isRead:this.form.isRead,
+        rules:this.form.rules,
+        groupRules:this.form.groupRules
       }
     },
     components:{
       fromGroup,multiMedia,stream,iForm
     },
-    computed :{ ...mapState('form',{
-      url:state=>state.form.url,
-      containers:state=>state.form.items,
-      isRead : state=>state.form.isRead,
-      events : state=> state.form.events,
-      rules : state=>state.form.rules,
-      groupRules : state=>state.form.groupRules
-    })
+//    computed :{ ...mapState('form',{
+//      url:state=>state.form.url,
+//      containers:state=>state.form.items,
+//      isRead : state=>state.form.isRead,
+//      events : state=> state.form.events,
+//      rules : state=>state.form.rules,
+//      groupRules : state=>state.form.groupRules
+//    })
+//
+//
+//    },
+    props : {
+      form : {
 
-
+      }
     },
     created() {
 
@@ -156,6 +166,7 @@
           if(valueResps.contains(value)) {
 
             this.convertComponentStatus({
+              form:this.form.url,
               name :value,
               isShow :true
             });
@@ -163,6 +174,7 @@
           } else {
 
             this.convertComponentStatus({
+              form:this.form.url,
               name :value,
               isShow :false
             });

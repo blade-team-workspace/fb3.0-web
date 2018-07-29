@@ -54,7 +54,7 @@
       return {
         defaultList: [
         ],
-
+        maxLength :this.item.maxLength === undefined ? 9 : this.item.maxLength,
         imgName: '',
         visible: false,
         uploadList: [],
@@ -109,10 +109,10 @@
         });
       },
       handleBeforeUpload () {
-        const check = this.uploadList.length < this.item.maxLength;
+        const check = this.uploadList.length < this.maxLength;
         if (!check) {
           this.$Notice.warning({
-            title: '最多不能超过' + this.item.maxLength + '张图'
+            title: '最多不能超过' + this.maxLength + '张图'
           });
         }
         return check;
