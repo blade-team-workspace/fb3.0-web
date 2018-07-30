@@ -48,6 +48,9 @@
       item : {
         type :Object,
         required : true
+      },
+      initFormValue : {
+
       }
     },
     data () {
@@ -58,7 +61,7 @@
         imgName: '',
         visible: false,
         uploadList: [],
-        componentValue : this.$store.state.values[this.item.name],
+        componentValue : this.initFormValue[this.item.name],
 
       }
     },

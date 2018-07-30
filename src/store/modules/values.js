@@ -4,7 +4,7 @@ const state = [
     value:{
       select1:3,
       textArea1:"",
-      text1:"",
+      text1:"123123",
       select3:"",
       textArea_multi:"",
       select1222:"",

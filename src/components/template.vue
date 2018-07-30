@@ -1,11 +1,12 @@
 <template>
-  <div class="form" v-for="form in forms">
-    <bpmForm
-      :form="form">
-
-    </bpmForm>
+  <div>
+    <div class="form" v-for="form in forms">
+      <bpmForm
+        :form="form"
+        >
+      </bpmForm>
+    </div>
   </div>
-
 
 </template>
 
@@ -22,6 +23,7 @@
 
        this.init();
        logger.debug('------- 表单数据 ----------')
+       logger.debug(this.$store.state.form)
        logger.debug(this.forms)
 
      },
@@ -31,7 +33,7 @@
     },
     data () {
       return {
-        forms : this.$store.form
+        forms : ''
       }
     },
     components:{
@@ -48,6 +50,8 @@
     methods: {
 
       init() {
+        this.forms = this.$store.state.form;
+
         // 扩展array类型原生方法，添加obj如果是array，就让其元素合并，否则直接加入
         Array.prototype.add = function(obj) {
           var arrList = this;

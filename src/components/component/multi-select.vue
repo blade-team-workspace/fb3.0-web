@@ -23,7 +23,7 @@
     data() {
       return {
         option: this.item.options,
-        componentValue: this.$store.state.values[this.item.name],
+        componentValue: this.initFormValue[this.item.name],
       }
     },
     props : {
@@ -31,7 +31,9 @@
         type: Object,
         required: true
       },
+    initFormValue : {
 
+    }
 
 
     },

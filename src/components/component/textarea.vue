@@ -14,13 +14,16 @@
    },
     data () {
       return {
-        componentValue:this.$store.state.values[this.item.name]
+        componentValue:this.initFormValue[this.item.name]
       }
     },
     props : {
       item:{
         type:Object,
         required:true
+      },
+      initFormValue : {
+
       }
 
     },

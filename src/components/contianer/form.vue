@@ -7,7 +7,9 @@
     <fromGroup  v-if="item.type == 'form-group'"
                 ref="container"
                 :label="item.label"
+                :initialFormValue="initialValue"
                 :container="item"
+                :url="url"
                 :values="formValues"
                 :isRead="isRead"
     >
@@ -15,6 +17,8 @@
     <multiMedia  v-if="item.type == 'multimedia'"
                  ref="container"
                  :label="item.label"
+                 :url="url"
+                 :initialFormValue="initialValue"
                  :container="item"
                  :isRead="isRead"
                  :values="formValues"
@@ -23,6 +27,8 @@
     <stream  v-if="item.type == 'stream'"
              ref="container"
              :container="item"
+             :url="url"
+             :initialFormValue="initialValue"
              :isRead="isRead"
              :values="formValues"
     >
@@ -50,8 +56,11 @@
         url:this.form.url,
         containers:this.form.items,
         isRead:this.form.isRead,
+        events:this.form.events,
         rules:this.form.rules,
-        groupRules:this.form.groupRules
+        groupRules:this.form.groupRules,
+        initialValue:''
+
       }
     },
     components:{
@@ -77,16 +86,19 @@
 
       //事件绑定初始化走一遍
       this.eventDispatch(this.events);
+      this.initialValue = this.findValue(this.url)
+      console.log(this.initialValue)
 
       this.$bus.on('triggerEvents', this.eventDispatchForTrigger);
       this.$bus.on('addValues',this.addValues)
+      console.log()
     },
     methods : {
       tes() {
 
         var values = {};
         this.$refs['formValidate'].$children.forEach(item => {
-//          console.log(item.$refs['component']);
+          console.log(item.$refs['component']);
           if(item.$refs['component']!== undefined){
             if($.isArray(item.$refs['component'])){
 
@@ -257,6 +269,15 @@
 
         this.$store.commit('status/convertStatus',payload)
 
+      },
+      findValue ( url ) {
+        var target = undefined
+        this.$store.state.values.forEach(item=>{
+          if( item.url === url ) {
+            target = item.value;
+          }
+        });
+        return target;
       }
     }
   }

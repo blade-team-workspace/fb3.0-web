@@ -19,43 +19,65 @@
         ref="component"
         v-if="container.items[0].type ==='text' "
         v-model="values[container.items[0].name]"
-        :item="container.items[0]">
+        :item="container.items[0]"
+        :initFormValue="initialFormValue"
+        :url="url">
       </bpmText>
 
       <bpmTextArea
         ref="component"
         v-if="container.items[0].type ==='textArea' "
         v-model="values[container.items[0].name]"
-        :item="container.items[0]">
+        :item="container.items[0]"
+        :initFormValue="initialFormValue"
+        :url="url">
       </bpmTextArea>
 
       <bpmSelect
         ref="component"
         v-if="container.items[0].type ==='select' "
         v-model="values[container.items[0].name]"
-        :item="container.items[0]">
+        :item="container.items[0]"
+        :initFormValue="initialFormValue"
+        :url="url">
       </bpmSelect>
 
       <bpmImage
         ref="component"
         v-if="container.items[0].type ==='image' "
         v-model="values[container.items[0].name]"
-        :item="container.items[0]">
+        :item="container.items[0]"
+        :initFormValue="initialFormValue"
+        :url="url">
       </bpmImage>
 
       <bpmNumber
         ref="component"
         v-if="container.items[0].type ==='number' "
         v-model="values[container.items[0].name]"
-        :item="container.items[0]">
+        :item="container.items[0]"
+        :initFormValue="initialFormValue"
+        :url="url">
       </bpmNumber>
 
       <bpmDate
         ref="component"
         v-if="container.items[0].type ==='date' "
         v-model="values[container.items[0].name]"
-        :item="container.items[0]">
+        :item="container.items[0]"
+        :initFormValue="initialFormValue"
+        :url="url">
       </bpmDate>
+
+      <bpmMultiSelect
+        ref="component"
+        v-if="container.items[0].type ==='date' "
+        v-model="values[container.items[0].name]"
+        :item="container.items[0]"
+        :initFormValue="initialFormValue"
+        :url="url">
+
+      </bpmMultiSelect>
       </Col>
     </Row>
   </div>
@@ -71,10 +93,12 @@
   import bpmImage from '../component/image'
   import bpmNumber from '../component/number'
   import bpmDate from '../component/date'
+  import bpmMultiSelect from '../component/multi-select'
 
   export default {
     created() {
 
+      console.log(this.container)
     },
     data() {
 
@@ -95,16 +119,30 @@
       },
       values: {
 
+      },
+      url:{
+
+      },
+      initialFormValue:{
+
       }
     },
     computed: {
 
       componentShow: function () {
-        return this.$store.state.status.class[this.container.items[0].name]
+        var  a = true;
+        console.log(this.$store.state.status)
+        this.$store.state.status.forEach(as => {
+          if(as.url === this.url) {
+            return a = as.status[this.container.items[0].name];
+          }
+        })
+
+        return a
       }
     },
     components: {
-      bpmText, bpmSelect, bpmLabel , bpmTextArea ,bpmImage ,bpmNumber,bpmDate
+      bpmText, bpmSelect, bpmLabel , bpmTextArea ,bpmImage ,bpmNumber,bpmDate,bpmMultiSelect
     },
     methods: {
       showChildComponent() {

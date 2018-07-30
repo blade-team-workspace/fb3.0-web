@@ -92,6 +92,9 @@ import bpmNumber from '../component/number'
     },
     values: {
 
+    },
+    initialFormValue:{
+
     }
   },
   methods : {

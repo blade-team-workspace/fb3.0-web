@@ -44,7 +44,7 @@ const mutations = {
 
     state.forEach(item => {
       if(item.url === payload.form){
-
+        console.log('asdads')
         item.status[payload.name] = payload.isShow
       }
     })

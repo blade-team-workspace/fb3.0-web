@@ -38,36 +38,46 @@
 
         <bpmText
           ref="component"
-          v-if="item.type ==='text'  && $store.state.status.class[item.name]"
+          v-if="item.type ==='text'  && status.status[item.name]"
           v-model="values[item.name]"
+          :url="url"
+          :initFormValue="initialFormValue"
           :item="item">
         </bpmText>
 
         <bpmTextArea
           ref="component"
-          v-if="item.type ==='textArea'&& $store.state.status.class[item.name] "
+          v-if="item.type ==='textArea'&& status.status[item.name] "
           v-model="values[item.name]"
+          :url="url"
+          :initFormValue="initialFormValue"
           :item="item">
         </bpmTextArea>
 
         <bpmSelect
           ref="component"
           v-model="values[item.name]"
-          v-if="item.type ==='select' && $store.state.status.class[item.name] "
+          v-if="item.type ==='select' && status.status[item.name] "
+          :url="url"
+          :initFormValue="initialFormValue"
           :item="item">
         </bpmSelect>
 
         <bpmImage
           ref="component"
-          v-if="item.type ==='image' "
+          v-if="item.type ==='image' && status.status[item.name] "
           v-model="values[item.name]"
+          :url="url"
+          :initFormValue="initialFormValue"
           :item="item">
         </bpmImage>
 
         <bpmNumber
           ref="component"
-          v-if="item.type ==='number' "
+          v-if="item.type ==='number' && status.status[item.name]"
           v-model="values[item.name]"
+          :url="url"
+          :initFormValue="initialFormValue"
           :item="item">
         </bpmNumber>
       </div>
@@ -104,6 +114,12 @@
         type: Boolean
       },
       values: {
+
+      },
+      url : {
+
+      },
+      initialFormValue:{
 
       }
     },components :{
@@ -144,6 +160,17 @@
 //        }
 
         return true
+      },
+      status : function() {
+        console.log(this.$store)
+        var a = undefined;
+        this.$store.state.status.forEach(aa => {
+          if(aa.url === this.url) {
+            a = aa;
+          }
+
+        })
+        return a;
       }
     },
     data() {

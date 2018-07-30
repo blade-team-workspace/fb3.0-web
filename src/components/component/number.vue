@@ -17,10 +17,11 @@
         name:this.item.name,
         value:this.componentValue
       });
+
     },
     data() {
       return {
-        componentValue: this.$store.state.values[this.item.name],
+        componentValue: this.initFormValue[this.item.name],
         events: this.findSelfEvent()
       }
     },
@@ -29,6 +30,12 @@
         type: Object,
         required: true
       },
+      url: {
+
+      },
+      initFormValue : {
+
+      }
     },
     computed: {
 
@@ -67,20 +74,23 @@
           }
         },
         findSelfEvent() {
-
-          var events = this.$store.state.form.form.events
-
           var  value = undefined;
-          var name = this.item.name
-          $.each(events, (index, event) => {
-            if (event.trigger === name) {
+          this.$store.state.form.forEach(aa=> {
+            if(aa.url === this.url) {
+              var events = aa.events
 
-              value = event;
+
+              var name = this.item.name
+              $.each(events, (index, event) => {
+                if (event.trigger === name) {
+
+                  value = event;
+                }
+              })
             }
           })
-
           return value;
-        },
+        }
       },
       components: {
         BpmFormItem

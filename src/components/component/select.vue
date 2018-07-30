@@ -25,7 +25,7 @@ import $ from 'jquery'
     data() {
       return {
         option: this.item.options,
-        componentValue: this.$store.state.values[this.item.name],
+        componentValue:this.initFormValue[this.item.name],
         events: this.findSelfEvent()
       }
     },
@@ -34,7 +34,12 @@ import $ from 'jquery'
         type: Object,
         required: true
       },
+      url:{
 
+      },
+      initFormValue : {
+
+      }
 
 
     },
@@ -44,18 +49,21 @@ import $ from 'jquery'
     },
     methods : {
       findSelfEvent() {
-
-        var events = this.$store.state.form.form.events
-
         var  value = undefined;
-        var name = this.item.name
-        $.each(events, (index, event) => {
-          if (event.trigger === name) {
+        this.$store.state.form.forEach(aa=> {
+          if(aa.url === this.url) {
+//            var events = aa.events
 
-            value = event;
+
+            var name = this.item.name
+            $.each(aa.events, (index, event) => {
+              if (event.trigger === name) {
+
+                value = event;
+              }
+            })
           }
         })
-
         return value;
       },
       eventTrigger (v) {

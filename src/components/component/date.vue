@@ -14,11 +14,14 @@ components : {
 },
   props : {
     item : {
-   }
+   },
+    initFormValue : {
+
+    }
   },
   data () {
     return {
-      componentValue : this.$store.state.values[this.item.name],
+      componentValue : this.initFormValue[this.item.name],
       value : ""
     }
   },
