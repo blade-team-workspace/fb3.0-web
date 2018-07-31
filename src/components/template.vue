@@ -13,7 +13,7 @@
 <script>
   import axios from 'axios'
   import { mapState, mapActions } from 'vuex'
-  import bpmForm from './contianer/form'
+  import bpmForm from './container/form'
   import $ from 'jquery'
   import logger from '../utils/logger'
 //  import app from '../main'
@@ -39,14 +39,7 @@
     components:{
       bpmForm
     },
-    data(){
-      return {
-//        formData:'',
-//        rules :'',
-//        values:''
 
-      }
-    },
     methods: {
 
       init() {

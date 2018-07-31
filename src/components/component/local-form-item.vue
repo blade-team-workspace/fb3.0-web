@@ -156,7 +156,9 @@
         return [].concat(selfRules || formRules || []);
       },
       validateRequireAtLeastOne(unused,callback = function(){}){
-
+        if(typeof arguments[arguments.length-1] !== 'function'){
+          callback = function(){}
+        }
         logger.debug('------- 组校验开始 -------')
         var rule = this.getFilterGroupRules();
         if(rule === undefined) {

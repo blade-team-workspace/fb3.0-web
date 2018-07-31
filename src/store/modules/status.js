@@ -14,7 +14,8 @@ const state = [
       text1444:true,
       b22:true,
       select1444:true,
-      date111:true
+      date111:true,
+      multi_text123:true
     }
 
   },
@@ -32,7 +33,8 @@ const state = [
       text1444:true,
       b22:true,
       select1444:true,
-      date111:true
+      date111:true,
+      multi_text123:true
     }
 
   }
@@ -44,7 +46,6 @@ const mutations = {
 
     state.forEach(item => {
       if(item.url === payload.form){
-        console.log('asdads')
         item.status[payload.name] = payload.isShow
       }
     })

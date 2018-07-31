@@ -9,7 +9,7 @@ const state = [
       textArea_multi:"",
       select1222:"",
       multimedia_text:"",
-      multimedia_select:2,
+      multimedia_select:[2],
       image11:[{url:'https://o5wwk8baw.qnssl.com/a42bdcc1178e62b4694c830f028db5c0/avatar',name:123},
       ],
       stream_read1: "",
@@ -17,7 +17,8 @@ const state = [
       b22:"",
       text1444 :"",
       select1444:"",
-      date111:"2018年07月26日"
+      date111:"2018年07月26日",
+      multi_text123:""
     }
 
   },
@@ -31,7 +32,7 @@ const state = [
       textArea_multi:"",
       select1222:"",
       multimedia_text:"",
-      multimedia_select:2,
+      multimedia_select:[2],
       image11:[{url:'https://o5wwk8baw.qnssl.com/a42bdcc1178e62b4694c830f028db5c0/avatar',name:123},
       ],
       stream_read1: "",

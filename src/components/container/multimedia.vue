@@ -1,30 +1,7 @@
 <!--单组件 左右排列 左label 右组件-->
 
 <template>
-  <!--<div class="multimedia" v-if="showOrhide ">-->
-  <!--<Row>-->
-  <!--<Col span="8"> <bpmLabel :value="containerData.label"></bpmLabel></Col>-->
-  <!--<Col span="16">-->
-  <!--<template v-if="!isRead">-->
 
-  <!--<div class="component" v-for="(item,index) in containerData.items">-->
-  <!--<bpmtext   @initCount="initCount" v-if="item.type=='text' && item.isShow" :itemData="item" v-model="modelValue[item.name]"  > </bpmtext>-->
-
-  <!--<bpmtextArea  @initCount="initCount" v-if="item.type=='textArea'&& containerData.items[0].isShow" :itemData="item"   v-model="modelValue[item.name]" ></bpmtextArea>-->
-  <!--<bpmSelect   @eventTrigger="eventTrigger" @initCount="initCount" v-if="item.type=='select'&& item.isShow" :itemData="item" :bpmValue="bpmValue"  v-model="modelValue[item.name]"  ></bpmSelect>-->
-  <!--</div>-->
-
-
-  <!--</template>-->
-  <!--<template v-else>-->
-  <!--<div class="read" v-for="(item,index) in containerData.items">-->
-  <!--<bpmRead v-if="readValue[item.name]!==undefined && readValue[item.name]!==''" :value="readValue[item.name]"></bpmRead>-->
-  <!--</div>-->
-  <!--</template>-->
-  <!--</Col>-->
-
-  <!--</Row>-->
-  <!--</div>-->
 
   <div class="multimedia" v-if="showOrhide">
     <Row>
@@ -63,6 +40,16 @@
           :item="item">
         </bpmSelect>
 
+        <bpmMultiSelect
+          ref="component"
+          v-if="item.type ==='multiSelect' && status.status[item.name] "
+          v-model="values[item.name]"
+          :item="item"
+          :initFormValue="initialFormValue"
+          :url="url">
+
+        </bpmMultiSelect>
+
         <bpmImage
           ref="component"
           v-if="item.type ==='image' && status.status[item.name] "
@@ -71,6 +58,15 @@
           :initFormValue="initialFormValue"
           :item="item">
         </bpmImage>
+
+        <bpmDate
+          ref="component"
+          v-if="item.type ==='date' && status.status[item.name] "
+          v-model="values[item.name]"
+          :item="item"
+          :initFormValue="initialFormValue"
+          :url="url">
+        </bpmDate>
 
         <bpmNumber
           ref="component"
@@ -95,6 +91,8 @@
   import bpmRead from '../component/read'
   import bpmNumber from '../component/number'
   import bpmImage from '../component/image'
+  import bpmMultiSelect from '../component/multi-select'
+  import bpmDate from '../component/date'
   export default  {
     created(){
 
@@ -123,7 +121,7 @@
 
       }
     },components :{
-      bpmText,bpmTextArea,bpmSelect,bpmLabel,bpmRead,bpmNumber,bpmImage
+      bpmText,bpmTextArea,bpmSelect,bpmLabel,bpmRead,bpmNumber,bpmImage,bpmMultiSelect,bpmDate
     },
     computed : {
       showOrhide:function () {
@@ -162,7 +160,6 @@
         return true
       },
       status : function() {
-        console.log(this.$store)
         var a = undefined;
         this.$store.state.status.forEach(aa => {
           if(aa.url === this.url) {

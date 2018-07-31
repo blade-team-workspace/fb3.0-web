@@ -71,7 +71,7 @@
 
       <bpmMultiSelect
         ref="component"
-        v-if="container.items[0].type ==='date' "
+        v-if="container.items[0].type ==='multiSelect' "
         v-model="values[container.items[0].name]"
         :item="container.items[0]"
         :initFormValue="initialFormValue"
@@ -98,7 +98,6 @@
   export default {
     created() {
 
-      console.log(this.container)
     },
     data() {
 
@@ -131,7 +130,6 @@
 
       componentShow: function () {
         var  a = true;
-        console.log(this.$store.state.status)
         this.$store.state.status.forEach(as => {
           if(as.url === this.url) {
             return a = as.status[this.container.items[0].name];
@@ -148,7 +146,6 @@
       showChildComponent() {
 
         if (!this.isRead) {
-          console.log('showChildComponent')
           this.$refs.component.showOrHide = true;
 
         }

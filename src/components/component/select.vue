@@ -51,25 +51,34 @@ import $ from 'jquery'
       findSelfEvent() {
         var  value = undefined;
         this.$store.state.form.forEach(aa=> {
+
           if(aa.url === this.url) {
 //            var events = aa.events
 
-
             var name = this.item.name
-            $.each(aa.events, (index, event) => {
-              if (event.trigger === name) {
 
-                value = event;
+//            aa.events.forEach(event => {
+//              if(event.trigger === name) {
+//                value = event
+//              }
+//            })
+            aa.events.forEach(item=>{
+              if(item.trigger === name) {
+                value = item
               }
             })
+
           }
         })
+
         return value;
       },
       eventTrigger (v) {
 
         this.componentValue = v;
         this.$emit('input',v)
+        console.log(this.events)
+        this.findSelfEvent();
          if(this.events !== undefined){
           logger.debug(this.item.name + '事件触发');
           logger.debug('event:' );

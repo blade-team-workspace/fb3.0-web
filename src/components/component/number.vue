@@ -96,8 +96,7 @@
         BpmFormItem
       },
       created () {
-        logger.debug(this.item.label + ": " + 'options : ')
-        logger.debug(this.option)
+
       }
     }
 

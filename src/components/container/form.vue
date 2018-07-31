@@ -87,18 +87,15 @@
       //事件绑定初始化走一遍
       this.eventDispatch(this.events);
       this.initialValue = this.findValue(this.url)
-      console.log(this.initialValue)
 
       this.$bus.on('triggerEvents', this.eventDispatchForTrigger);
       this.$bus.on('addValues',this.addValues)
-      console.log()
     },
     methods : {
       tes() {
 
         var values = {};
         this.$refs['formValidate'].$children.forEach(item => {
-          console.log(item.$refs['component']);
           if(item.$refs['component']!== undefined){
             if($.isArray(item.$refs['component'])){
 
@@ -171,10 +168,9 @@
         var target = value!== undefined?value:this.$store.state.values[trigger]
         valueResps =  this.getValueReps(event,value!== undefined?value:this.$store.state.values[trigger])
         logger.debug('当前选项:' + target + '' + ' 当前选项关联组件 ：');
-        console.log(valueResps);
+        logger.debug(valueResps);
         $.each(allResp , (index , value ) => {
-          console.log('9999999')
-          console.log(allResp)
+
           if(valueResps.contains(value)) {
 
             this.convertComponentStatus({
@@ -199,8 +195,7 @@
         var allResp = [];
         $.each(reps , function (index ,valueResp) {
           if($.isArray(this)) {
-            console.log('22222');
-            console.log(this);
+
             $.each(this, function(_idx) {
               if(  !allResp.contains(this.toString()) && this.toString() !== '') {
                 allResp.add(this.toString());

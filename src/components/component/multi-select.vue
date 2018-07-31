@@ -7,8 +7,9 @@
 </template>
 
 <script>
-  //  import store from '../../store/store'
   import BpmFormItem from './local-form-item'
+  import logger from '../../utils/logger'
+  import $ from 'jquery'
   export default {
 
     created() {
@@ -16,6 +17,7 @@
         name:this.item.name,
         value:this.componentValue
       });
+//      this.componentValue = this.value
 
 
 
@@ -23,7 +25,9 @@
     data() {
       return {
         option: this.item.options,
-        componentValue: this.initFormValue[this.item.name],
+        value:this.initFormValue[this.item.name],
+        events: this.findSelfEvent(),
+        componentValue:[]
       }
     },
     props : {
@@ -31,9 +35,12 @@
         type: Object,
         required: true
       },
-    initFormValue : {
+      url:{
 
-    }
+      },
+      initFormValue : {
+
+      }
 
 
     },
@@ -42,12 +49,36 @@
 
     },
     methods : {
-      eventTrigger (v) {
-        this.componentValue = v;
-        console.log('select 事件触发');
-        console.log(v);
+      findSelfEvent() {
+        var  value = undefined;
+        this.$store.state.form.forEach(aa=> {
+          if(aa.url === this.url) {
+//            var events = aa.events
 
-        this.$emit('input',v)
+
+            var name = this.item.name
+            $.each(aa.events, (index, event) => {
+              if (event.trigger === name) {
+
+                value = event;
+              }
+            })
+          }
+        })
+        return value;
+      },
+      eventTrigger (v) {
+
+//        this.componentValue = v;
+//        this.$emit('input',v)
+//        logger.debug('value:' + this.value)
+        if(this.events !== undefined){
+          logger.debug(this.item.name + '事件触发');
+          logger.debug('event:' );
+          logger.debug(this.events)
+          logger.debug('value:' + this.componentValue)
+          this.$bus.emit('triggerEvents',this.events ,this.componentValue);
+        }
       }
     },
     components : {
