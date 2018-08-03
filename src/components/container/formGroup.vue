@@ -15,11 +15,16 @@
       </Col>
       <Col span="16">
 
+
+
+
+
       <bpmText
         ref="component"
         v-if="container.items[0].type ==='text' "
         v-model="values[container.items[0].name]"
         :item="container.items[0]"
+        :isRead="isRead"
         :initFormValue="initialFormValue"
         :url="url">
       </bpmText>
@@ -29,6 +34,7 @@
         v-if="container.items[0].type ==='textArea' "
         v-model="values[container.items[0].name]"
         :item="container.items[0]"
+        :isRead="isRead"
         :initFormValue="initialFormValue"
         :url="url">
       </bpmTextArea>
@@ -38,6 +44,7 @@
         v-if="container.items[0].type ==='select' "
         v-model="values[container.items[0].name]"
         :item="container.items[0]"
+        :isRead="isRead"
         :initFormValue="initialFormValue"
         :url="url">
       </bpmSelect>
@@ -47,6 +54,7 @@
         v-if="container.items[0].type ==='image' "
         v-model="values[container.items[0].name]"
         :item="container.items[0]"
+        :isRead="isRead"
         :initFormValue="initialFormValue"
         :url="url">
       </bpmImage>
@@ -56,6 +64,7 @@
         v-if="container.items[0].type ==='number' "
         v-model="values[container.items[0].name]"
         :item="container.items[0]"
+        :isRead="isRead"
         :initFormValue="initialFormValue"
         :url="url">
       </bpmNumber>
@@ -65,6 +74,7 @@
         v-if="container.items[0].type ==='date' "
         v-model="values[container.items[0].name]"
         :item="container.items[0]"
+        :isRead="isRead"
         :initFormValue="initialFormValue"
         :url="url">
       </bpmDate>
@@ -74,10 +84,13 @@
         v-if="container.items[0].type ==='multiSelect' "
         v-model="values[container.items[0].name]"
         :item="container.items[0]"
+        :isRead="isRead"
         :initFormValue="initialFormValue"
         :url="url">
 
       </bpmMultiSelect>
+
+
       </Col>
     </Row>
   </div>
@@ -94,15 +107,17 @@
   import bpmNumber from '../component/number'
   import bpmDate from '../component/date'
   import bpmMultiSelect from '../component/multi-select'
-
+  import bpmRead from '../component/read'
+  import $ from 'jquery'
   export default {
     created() {
 
+//      console.log(this.initialFormValue)
     },
     data() {
 
       return {
-        showOrhide: true
+//        showOrhide: true
       }
     },
     props: {
@@ -130,17 +145,39 @@
 
       componentShow: function () {
         var  a = true;
-        this.$store.state.status.forEach(as => {
-          if(as.url === this.url) {
-            return a = as.status[this.container.items[0].name];
-          }
-        })
+        if(this.isRead) {   //只读状态只需要判断是否有值即可
+          this.$store.state.values.forEach(as => {
+            if(as.url === this.url) {
+              var value =as.value [this.container.items[0].name];
+              if ($.isArray(value) ){
+                if(value.length!==0){
+                  a = true;
+                }else {
+                  a = false;
+                }
+              } else if( value !== '') {
+                a = true;
+              }else {
+                a = false;
+              }
+
+            }
+          });
+
+        } else { // 非只读状态只需判断状态即可
+          this.$store.state.status.forEach(as => {
+            if(as.url === this.url) {
+               a = as.status[this.container.items[0].name];
+            }
+          })
+        }
+
 
         return a
       }
     },
     components: {
-      bpmText, bpmSelect, bpmLabel , bpmTextArea ,bpmImage ,bpmNumber,bpmDate,bpmMultiSelect
+      bpmRead, bpmText, bpmSelect, bpmLabel , bpmTextArea ,bpmImage ,bpmNumber,bpmDate,bpmMultiSelect
     },
     methods: {
       showChildComponent() {

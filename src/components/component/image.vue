@@ -6,7 +6,7 @@
       <img :src="item.url">
       <div class="demo-upload-list-cover">
         <Icon type="ios-eye-outline" @click.native="handleView(item.name)"></Icon>
-        <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
+        <Icon   v-show="!isRead" type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
       </div>
     </template>
     <template v-else>
@@ -14,6 +14,7 @@
     </template>
   </div>
   <Upload
+    v-show="!isRead"
     ref="upload"
     :show-upload-list="false"
     :default-file-list="defaultList"
@@ -51,6 +52,9 @@
       },
       initFormValue : {
 
+      },
+      isRead : {
+        default: false
       }
     },
     data () {

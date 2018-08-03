@@ -1,11 +1,20 @@
 <template>
+  <div v-if="!isRead">
   <BpmFormItem :prop="item.name" :title="item.label">
   <i-input  v-model="componentValue" type="textarea" style="width: 300px" :name="item.name"  @on-blur="eventBlur" ></i-input>
   </BpmFormItem>
+  </div>
+  <div v-else>
+    <bpmRead
+      :value="componentValue">
+
+    </bpmRead>
+  </div>
 </template>
 
 <script>
   import BpmFormItem from './local-form-item'
+  import bpmRead from './read'
   export default {
 
     created() {
@@ -24,6 +33,9 @@
       },
       initFormValue : {
 
+      },
+      isRead :{
+        default : false
       }
 
     },
@@ -35,9 +47,6 @@
 
       eventBlur(e) {
 
-        console.log('eventBlur_text');
-        console.log(e.target.value);
-
         this.$emit('input',e.target.value)
       },
       initData () {
@@ -45,7 +54,7 @@
       }
     },
     components:{
-      BpmFormItem
+      BpmFormItem,bpmRead
     }
   }
 

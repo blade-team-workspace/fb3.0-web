@@ -18,6 +18,7 @@
           v-if="item.type ==='text'  && status.status[item.name]"
           v-model="values[item.name]"
           :url="url"
+          :isRead="isRead"
           :initFormValue="initialFormValue"
           :item="item">
         </bpmText>
@@ -27,6 +28,7 @@
           v-if="item.type ==='textArea'&& status.status[item.name] "
           v-model="values[item.name]"
           :url="url"
+          :isRead="isRead"
           :initFormValue="initialFormValue"
           :item="item">
         </bpmTextArea>
@@ -36,6 +38,7 @@
           v-model="values[item.name]"
           v-if="item.type ==='select' && status.status[item.name] "
           :url="url"
+          :isRead="isRead"
           :initFormValue="initialFormValue"
           :item="item">
         </bpmSelect>
@@ -45,6 +48,7 @@
           v-if="item.type ==='multiSelect' && status.status[item.name] "
           v-model="values[item.name]"
           :item="item"
+          :isRead="isRead"
           :initFormValue="initialFormValue"
           :url="url">
 
@@ -55,6 +59,7 @@
           v-if="item.type ==='image' && status.status[item.name] "
           v-model="values[item.name]"
           :url="url"
+          :isRead="isRead"
           :initFormValue="initialFormValue"
           :item="item">
         </bpmImage>
@@ -64,6 +69,7 @@
           v-if="item.type ==='date' && status.status[item.name] "
           v-model="values[item.name]"
           :item="item"
+          :isRead="isRead"
           :initFormValue="initialFormValue"
           :url="url">
         </bpmDate>
@@ -73,6 +79,7 @@
           v-if="item.type ==='number' && status.status[item.name]"
           v-model="values[item.name]"
           :url="url"
+          :isRead="isRead"
           :initFormValue="initialFormValue"
           :item="item">
         </bpmNumber>
@@ -93,6 +100,7 @@
   import bpmImage from '../component/image'
   import bpmMultiSelect from '../component/multi-select'
   import bpmDate from '../component/date'
+  import $ from 'jquery'
   export default  {
     created(){
 
@@ -126,38 +134,40 @@
     computed : {
       showOrhide:function () {
 //
-//        var tag = false;
-//        console.log('showOrhide');
-//        if(this.isRead) {
-//          $.each(this.containerData.items, (index, item) => {
-//            console.log(this.bpmValue)
-//
-//            if (this.bpmValue[item.name] !== '') {
-//              console.log('true');
-//              tag =  true;
-//            } else {
-//
-//            }
-//          });
-//
-//          return tag;
-//        } else {
-//          $.each(this.containerData.items , (index , item) => {
-//
-//            if(item.isShow) {
-//              console.log('true');
-//              tag =  true;
-//            } else {
-//
-//            }
-//
-//          })
-//
-//
-//          return tag;
-//        }
+        var tag = false;
 
-        return true
+        if(this.isRead) {  //只读状态只需要判断是否有值即可
+          this.container.items.forEach(item =>{
+            var  value =this.initialFormValue[item.name];
+            if ($.isArray(value) ){
+              if(value.length!==0){
+                tag = true;
+              }else {
+
+              }
+            } else if( value !== '') {
+              tag = true;
+            }else {
+
+            }
+          })
+
+        } else { // 判断status
+
+          this.$store.state.status.forEach(status => {
+            if(status.url === this.url) {
+              this.container.items.forEach(item => {
+
+                if(status.status[item.name]) {
+                  tag = true;
+                }
+              });
+            }
+          })
+
+        }
+
+        return tag
       },
       status : function() {
         var a = undefined;

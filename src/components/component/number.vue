@@ -1,15 +1,25 @@
 <template>
+  <div v-if="!isRead">
   <BpmFormItem :prop="item.name" :title="item.label">
     <i-select  :value="componentValue" style="width:200px" @on-change="eventTrigger($event)"  :name="item.name" >
       <i-option v-for="item in option" :value="item" :key="item">{{ item }}</i-option>
     </i-select>
   </BpmFormItem>
+
+  </div>
+  <div v-else>
+    <bpmRead
+      :value="componentValue">
+
+    </bpmRead>
+  </div>
 </template>
 
 <script>
   import logger from '../../utils/logger'
   import BpmFormItem from './local-form-item'
   import $ from 'jquery'
+  import bpmRead from './read'
   export default {
 
     created() {
@@ -35,6 +45,9 @@
       },
       initFormValue : {
 
+      },
+      isRead :{
+        default : false
       }
     },
     computed: {
@@ -93,7 +106,7 @@
         }
       },
       components: {
-        BpmFormItem
+        BpmFormItem,bpmRead
       },
       created () {
 

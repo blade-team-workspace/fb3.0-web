@@ -88,6 +88,7 @@
       this.eventDispatch(this.events);
       this.initialValue = this.findValue(this.url)
 
+      console.log(this.initialValue)
       this.$bus.on('triggerEvents', this.eventDispatchForTrigger);
       this.$bus.on('addValues',this.addValues)
     },
@@ -165,8 +166,8 @@
         allResp =  this.getAllResp(event.valueResps);
         logger.debug('所有关联组件:');
         logger.debug(allResp)
-        var target = value!== undefined?value:this.$store.state.values[trigger]
-        valueResps =  this.getValueReps(event,value!== undefined?value:this.$store.state.values[trigger])
+        var target = value!== undefined?value:this.findValue(this.url)[trigger]
+        valueResps =  this.getValueReps(event,value!== undefined?value:this.findValue(this.url)[trigger])
         logger.debug('当前选项:' + target + '' + ' 当前选项关联组件 ：');
         logger.debug(valueResps);
         $.each(allResp , (index , value ) => {
