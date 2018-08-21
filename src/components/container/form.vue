@@ -87,8 +87,6 @@
       //事件绑定初始化走一遍
       this.eventDispatch(this.events);
       this.initialValue = this.findValue(this.url)
-
-      console.log(this.initialValue)
       this.$bus.on('triggerEvents', this.eventDispatchForTrigger);
       this.$bus.on('addValues',this.addValues)
     },
@@ -114,7 +112,7 @@
             }
           }
 
-        })
+        });
         logger.debug(' -------- form表单值 ------')
         logger.debug(values)
       },
@@ -267,7 +265,7 @@
 
       },
       findValue ( url ) {
-        var target = undefined
+        var target = undefined;
         this.$store.state.values.forEach(item=>{
           if( item.url === url ) {
             target = item.value;
