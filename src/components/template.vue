@@ -20,7 +20,9 @@
   export default {
 
      created() {
-
+       axios.get('/class').then(response =>{
+         this.$store.commit('form/addFormData',response.data.dataList)
+       })
        this.init();
        logger.debug('------- 表单数据 ----------')
        logger.debug(this.$store.state.form)

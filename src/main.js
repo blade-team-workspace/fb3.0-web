@@ -12,7 +12,9 @@ import iView from 'iview' // 导入组件库
 import 'iview/dist/styles/iview.css' // 导入样式
 import store from './store'
 import VueBus from 'vue-bus';
+import mocks from './mock'
 // /* eslint-disable no-new */
+mocks.init();
 Vue.use(iView)
 Vue.use(Vuex)
 Vue.use(VueBus);

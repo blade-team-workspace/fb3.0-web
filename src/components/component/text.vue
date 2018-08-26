@@ -1,7 +1,7 @@
 <template>
   <div v-if="!isRead">
   <BpmFormItem :prop="item.name" :title="item.label">
-<i-input   v-model="componentValue" style="width: 300px" :name="item.name"  @on-blur="eventBlur"   >
+<i-input   v-model="componentValue" style="width: 60%" :name="item.name"  @on-blur="eventBlur"   >
 
 </i-input>
   </BpmFormItem>
